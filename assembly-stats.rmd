@@ -1,0 +1,87 @@
+---
+title: Assembly of the Genome in a Bottle HG004 sequencing data
+author: Shaun Jackman
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r install-packages, eval=FALSE, echo=FALSE}
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("knitr")
+install.packages("magrittr")
+install.packages("tidyr")
+```
+
+```{r load-libraries, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(magrittr)
+library(tidyr)
+```
+
+```{r read-data}
+data.orig <- read.delim("assembly-stats.tsv", as.is = TRUE)
+```
+
+```{r tidy-data}
+data <- data.orig %>%
+	separate(name, c("Directory", "File"), "/") %>%
+	separate(File, c("Species", "Stage", "Ext")) %>%
+	select(-Ext) %>%
+	mutate(Directory = factor(Directory, unique(Directory)),
+		Stage = factor(Stage, unique(Stage))) %>%
+	mutate(Name = factor(Directory,
+		levels = c("k96", "k128"),
+		labels = c("ABySS 1.9.0 k=96", "ABySS 1.9.0 k=128")))
+```
+
+# ABySS contigs
+```{r plot-contigs}
+ggplot(data = data %>% filter(Stage != "8")) +
+	aes(x = Stage, y = NG50 / 1e3, color = Directory, group = Directory) +
+	geom_point() +
+	geom_line() +
+  ylab("NG50 (kbp)")
+```
+
+# ABySS scaffolds
+```{r plot-scaffolds}
+ggplot(data = data) +
+	aes(x = Stage, y = NG50 / 1e6, color = Directory, group = Directory) +
+	geom_point() +
+	geom_line() +
+  ylab("NG50 (Mbp)")
+```
+
+# ABySS assembly stats
+```{r plot-assembly-stats}
+ggplot(data = data) +
+	aes(x = Stage, y = NG50, color = Directory, group = Directory) +
+	geom_point() +
+	geom_line() +
+	scale_y_log10(breaks = 10^(3:7), labels = c("1 kbp", "10 kbp", "100 kbp", "1 Mbp", "10 Mbp"))
+```
+
+# ABySS assembly stats
+```{r plot-NG50, fig.width=10.5, fig.height=10, dpi=300}
+ggplot(data = data) +
+	aes(x = Stage, y = NG50, color = Name, group = Name) +
+	geom_point(size = 3) +
+	geom_line(size = 1.5) +
+	geom_hline(aes(yintercept = NG50, color = Name),
+		data = data %>% filter(Stage == "1"),
+		linetype = "dashed") +
+	scale_x_discrete(labels = c("haptigs", "unitigs", "contigs", "scaffolds", "scaftigs")) +
+	scale_y_log10(breaks = 10^(3:7), labels = c("1 kbp", "10 kbp", "100 kbp", "1 Mbp", "10 Mbp")) +
+	scale_colour_brewer(name = NULL, palette = "Dark2") +
+	theme_grey(28) +
+	theme(legend.position = c(.35, .85))
+```
+
+# Table of ABySS assembly stats
+```{r tabulate-assembly-stats}
+kable(data)
+```
