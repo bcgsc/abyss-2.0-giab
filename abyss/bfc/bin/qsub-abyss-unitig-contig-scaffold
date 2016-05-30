@@ -1,0 +1,31 @@
+#!/bin/bash
+#$ -S /bin/bash
+#$ -N giab-8
+#$ -q all.q,mpi.q
+#$ -pe ncpus 12
+#$ -l mem_token=3.75G,mem_free=3.75G,h_vmem=3.75G,excl=true
+#$ -j y
+#$ -o log/$JOB_NAME.$JOB_ID.$TASK_ID
+#$ -m ae
+#$ -M sjackman@gmail.com
+
+#------------------------------------------------------------
+# job params
+#------------------------------------------------------------
+
+export k=$SGE_TASK_ID
+export name=hsapiens
+
+export lib=pe600
+export pe600=`<pe600.in`
+export mp=mp6k
+export mp6k=`<mp6k.in`
+
+#------------------------------------------------------------
+# run the assembly
+#------------------------------------------------------------
+
+export stages="unitigs contigs mp-sam scaffolds"
+
+source /extscratch/btl/bloom-dbg/assembler-comparison/common/run-abyss-1.9.0-genesis \
+	   S=100-10000 "$@"

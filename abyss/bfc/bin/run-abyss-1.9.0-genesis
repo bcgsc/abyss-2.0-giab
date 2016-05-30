@@ -1,0 +1,83 @@
+#!/bin/bash
+set -eu -o pipefail
+
+#------------------------------------------------------------
+# environment / job params
+#------------------------------------------------------------
+
+export mpirun="mpirun --mca btl_sm_eager_limit 16000 --mca btl_openib_eager_limit 16000"
+
+if [ $k -le 96 ]; then
+	maxk=96
+elif [ $k -le 128 ]; then
+	maxk=128
+elif [ $k -le 160 ]; then
+	maxk=160
+elif [ $k -le 192 ]; then
+	maxk=192
+elif [ $k -le 224 ]; then
+	maxk=224
+elif [ $k -le 256 ]; then
+	maxk=256
+elif [ $k -le 288 ]; then
+	maxk=288
+elif [ $k -le 320 ]; then
+	maxk=320
+elif [ $k -le 352 ]; then
+	maxk=352
+elif [ $k -le 416 ]; then
+	maxk=416
+elif [ $k -le 448 ]; then
+	maxk=448
+elif [ $k -le 480 ]; then
+	maxk=480
+elif [ $k -le 512 ]; then
+	maxk=512
+else
+	echo "No ABYSS binary available for k > 512!" >&2
+	exit 1
+fi
+
+
+# for samtools, bioawk
+export PATH=/home/benv/bin:$PATH
+# for OpenMPI
+export PATH=/usr/mpi/gcc/openmpi-1.4.1/bin:$PATH
+# for ABySS
+export PATH=/home/benv/arch/genesis/abyss-1.9.0/k$maxk/bin:$PATH
+
+#------------------------------------------------------------
+# helper functions
+#------------------------------------------------------------
+
+# make Ctrl-C kill all descendant processes
+source /extscratch/btl/bloom-dbg/assembler-comparison/common/ctrl-c.bash
+# functions to log memory usage
+source /extscratch/btl/bloom-dbg/assembler-comparison/common/mem-logger.bash
+
+#------------------------------------------------------------
+# working dir
+#------------------------------------------------------------
+
+dir=k$k
+mkdir -p $dir
+cd $dir
+
+#------------------------------------------------------------
+# run the assembly
+#------------------------------------------------------------
+
+# log memory and running time for each assembly stage separately
+stages=${stages:-"preunitigs unitigs contigs scaffolds"}
+for stage in $stages; do
+	if [ $stage = "preunitigs" ]; then
+		make_target="$name-1.fa"
+	else
+		make_target=$stage
+	fi
+	start_mem_log mem.log.$stage.$JOB_ID
+	/usr/bin/time -o time.log.$stage.$JOB_ID -p abyss-pe \
+		k=$k l=40 s=1000 v=-v q=15 \
+		$make_target "$@"
+	stop_mem_log
+done

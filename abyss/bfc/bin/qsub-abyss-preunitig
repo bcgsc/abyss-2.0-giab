@@ -1,0 +1,31 @@
+#!/bin/bash
+#$ -S /bin/bash
+#$ -N giab-1
+#$ -q mpi.q
+#$ -pe openmpi 48
+#$ -l mem_token=11G,mem_free=11G,h_vmem=11G,excl=true
+#$ -j y
+#$ -o log/$JOB_NAME.$JOB_ID.$TASK_ID
+#$ -m ae
+#$ -M sjackman@gmail.com
+
+#------------------------------------------------------------
+# job params
+#------------------------------------------------------------
+
+export k=$SGE_TASK_ID
+export name=hsapiens
+export lib=pe600
+export pe600=`<pe600.in`
+export mp=mp6k
+export mp6k=`<mp6k.in`
+
+#------------------------------------------------------------
+# run the assembly
+#------------------------------------------------------------
+
+# only run the preunitigs stage
+export stages=preunitigs
+
+source /extscratch/btl/bloom-dbg/assembler-comparison/common/run-abyss-1.9.0-genesis \
+	   mplib_de='--mean' "$@"
