@@ -47,6 +47,7 @@ nxtrim: \
 bfc: \
 	HG004/sequence.index.AJtrio_Illumina_2x250bps_02192016.bfc \
 	HG004/mp6k.mp.bfc.log \
+	HG004/mp6k.unknown.bfc.log \
 	HG004/sequence.index.AJtrio_Illumina_2x250bps_02192016.bfc.log
 
 bfc_kmerstream: \
@@ -166,8 +167,8 @@ $(bfc): %.bfc: %.realpath
 HG004/mp6k.mp.path:
 	printf "MPHG004-23100079/MPHG004_S3_L003_001.mp.fastq.gz\nMPHG004-23110109/MPHG004_S3_L003_001.mp.fastq.gz\n" >$@
 
-HG004/mp6k.mp.bfc.path:
-	printf "MPHG004-23100079/MPHG004_S3_L003_001.mp.bfc.fq.gz\nMPHG004-23110109/MPHG004_S3_L003_001.mp.bfc.fq.gz\n" >$@
+HG004/mp6k.unknown.path:
+	printf "MPHG004-23100079/MPHG004_S3_L003_001.unknown.fastq.gz\nMPHG004-23110109/MPHG004_S3_L003_001.unknown.fastq.gz\n" >$@
 
 # ABySS
 
