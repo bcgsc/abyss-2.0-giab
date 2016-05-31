@@ -155,7 +155,7 @@ $(bfc): %.bfc: %.realpath
 
 # Correct a single FASTQ file
 %.bfc.fq.gz: %.fastq.gz $(bfc)
-	bfc -t$t -s3G -r $(bfc) /dev/null $< | gzip >$@
+	bfc -t$t -s3G -r $(bfc) /dev/null $< | tr '\t' ' ' | gzip >$@
 
 # Correct the reads
 %.bfc.log: %.path $(bfc)
