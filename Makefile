@@ -164,6 +164,17 @@ $(bfc): %.bfc: %.realpath
 %.bfc.path: %.path
 	sed 's/.fastq.gz/.bfc.fq.gz/' $< >$@
 
+# Interleave paired-end reads
+
+%.interleave.path: %.path
+	cd $(<D) && for i in `<$(<F)`; do ln -s $$i `echo $$i | sed -Ee 's/(.*)_R([12])(_.*).bfc.fq.gz/\1\3_\2.bfc.fq.gz/'`; done
+	sed -n 's/_R1//p' $< >$@
+
+%.bfc.fq.gz: %_1.bfc.fq.gz %_2.bfc.fq.gz
+	paste <(gunzip -c $*_1.bfc.fq.gz | paste - - - -) <(gunzip -c $*_2.bfc.fq.gz | paste - - - -) | tr '\t' '\n' | gzip >$@
+
+# Miscellaneous
+
 HG004/mp6k.mp.path:
 	printf "MPHG004-23100079/MPHG004_S3_L003_001.mp.fastq.gz\nMPHG004-23110109/MPHG004_S3_L003_001.mp.fastq.gz\n" >$@
 
