@@ -173,6 +173,25 @@ $(bfc): %.bfc: %.realpath
 %.bfc.fq.gz: %_1.bfc.fq.gz %_2.bfc.fq.gz
 	paste <(gunzip -c $*_1.bfc.fq.gz | paste - - - -) <(gunzip -c $*_2.bfc.fq.gz | paste - - - -) | tr '\t' '\n' | gzip >$@
 
+# seqtk
+
+# Convert FASTQ to FASTA
+%.fa.gz: %.fq.gz
+	seqtk seq -A $< | gzip >$@
+
+# abyss-mergepairs
+
+%.merged.path: %.path
+	sed -n 's/bfc.fq.gz/bfc.merged.fq.gz/;s/_R1//p' $< >$@
+
+# Merge overlapping paired-end reads using abyss-mergepairs
+%.bfc.merged.fq.gz: %_1.bfc.fq.gz %_2.bfc.fq.gz
+	abyss-mergepairs -v -p0.9 -m10 -q10 -o $*.bfc $^ >$*_merged.tsv
+	mv $*.bfc_merged.fastq $*.bfc.merged.fq
+	mv $*.bfc_reads_1.fastq $*.bfc.reads_1.fq
+	mv $*.bfc_reads_2.fastq $*.bfc.reads_2.fq
+	gzip $*.bfc.merged.fq $*.bfc.reads_1.fq $*.bfc.reads_2.fq
+
 # Miscellaneous
 
 HG004/mp6k.mp.path:
