@@ -12,6 +12,9 @@ ref=GRCh38
 ref_fa=/genesis/extscratch/btl/reference_genomes/H_sapiens/GRCh38/GCA_000001405.15_GRCh38_genomic.chr-only.fa
 ref_gff=/genesis/extscratch/btl/reference_genomes/H_sapiens/GRCh38/Homo_sapiens.GRCh38.84.chr.gff
 
+# Parallelize gzip
+gzip = pigz -p$t
+
 # Report run time
 export SHELL=zsh -opipefail
 export REPORTTIME=1
@@ -71,7 +74,7 @@ rmarkdown: \
 
 # Install dependencies
 
-deps=abyss bfc bwa discovardenovo fastqc jq kmerstream nxtrim samtools seqtk
+deps=abyss bfc bwa discovardenovo fastqc jq kmerstream nxtrim pigz samtools seqtk
 
 deps:
 	@echo $(deps)
@@ -158,7 +161,7 @@ $(bfc): %.bfc: %.realpath
 
 # Correct a single FASTQ file
 %.bfc.fq.gz: %.fastq.gz $(bfc)
-	bfc -t$t -s3G -r $(bfc) /dev/null $< | tr '\t' ' ' | gzip >$@
+	bfc -t$t -s3G -r $(bfc) /dev/null $< | tr '\t' ' ' | $(gzip) >$@
 
 # Correct the reads
 %.bfc.log: %.path $(bfc)
@@ -175,14 +178,14 @@ $(bfc): %.bfc: %.realpath
 
 # Interleave paired-end reads and convert lower case nucleotides to upper case
 %.bfc.fq.gz: %_1.bfc.fq.gz %_2.bfc.fq.gz
-	seqtk mergepe $^ | seqtk seq -U | gzip >$@
+	seqtk mergepe $^ | seqtk seq -U | $(gzip) >$@
 
 %.fa.path: %.path
 	sed 's/fq.gz$$/fa.gz/' $< >$@
 
 # Convert FASTQ to FASTA and convert lower case nucleotides to upper case
 %.fa.gz: %.fq.gz
-	seqtk seq -AU $< | gzip >$@
+	seqtk seq -AU $< | $(gzip) >$@
 
 # abyss-mergepairs
 
@@ -195,7 +198,7 @@ $(bfc): %.bfc: %.realpath
 	mv $*.bfc_merged.fastq $*.bfc.merged.fq
 	mv $*.bfc_reads_1.fastq $*.bfc.reads_1.fq
 	mv $*.bfc_reads_2.fastq $*.bfc.reads_2.fq
-	gzip $*.bfc.merged.fq $*.bfc.reads_1.fq $*.bfc.reads_2.fq
+	$(gzip) $*.bfc.merged.fq $*.bfc.reads_1.fq $*.bfc.reads_2.fq
 
 # Miscellaneous
 
