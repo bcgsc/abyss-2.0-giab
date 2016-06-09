@@ -167,20 +167,22 @@ $(bfc): %.bfc: %.realpath
 %.bfc.path: %.path
 	sed 's/.fastq.gz/.bfc.fq.gz/' $< >$@
 
-# Interleave paired-end reads
+# seqtk
 
 %.interleave.path: %.path
 	cd $(<D) && for i in `<$(<F)`; do ln -s $$i `echo $$i | sed -Ee 's/(.*)_R([12])(_.*).bfc.fq.gz/\1\3_\2.bfc.fq.gz/'`; done
 	sed -n 's/_R1//p' $< >$@
 
+# Interleave paired-end reads and convert lower case nucleotides to upper case
 %.bfc.fq.gz: %_1.bfc.fq.gz %_2.bfc.fq.gz
-	paste <(gunzip -c $*_1.bfc.fq.gz | paste - - - -) <(gunzip -c $*_2.bfc.fq.gz | paste - - - -) | tr '\t' '\n' | gzip >$@
+	seqtk mergepe $^ | seqtk seq -U | gzip >$@
 
-# seqtk
+%.fa.path: %.path
+	sed 's/fq.gz$$/fa.gz/' $< >$@
 
-# Convert FASTQ to FASTA
+# Convert FASTQ to FASTA and convert lower case nucleotides to upper case
 %.fa.gz: %.fq.gz
-	seqtk seq -A $< | gzip >$@
+	seqtk seq -AU $< | gzip >$@
 
 # abyss-mergepairs
 
