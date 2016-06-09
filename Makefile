@@ -57,6 +57,9 @@ bfc_kmerstream: \
 abyss_ref: \
 	$(ref)-k128/$(name)-1.fa
 
+.PHONY: discovardenovo
+discovardenovo: discovardenovo/$(name)-scaftigs.fa
+
 quast: \
 	abyss/k96/$(name)-1.quast/transposed_report.tsv \
 	abyss/k128/$(name)-1.quast/transposed_report.tsv \
@@ -68,7 +71,7 @@ rmarkdown: \
 
 # Install dependencies
 
-deps=bfc fastqc jq kmerstream nxtrim
+deps=abyss bfc bwa discovardenovo fastqc jq kmerstream nxtrim samtools seqtk
 
 deps:
 	@echo $(deps)
@@ -206,6 +209,27 @@ HG004/mp6k.unknown.path:
 $(ref)-k%/$(name)-1.fa: $(ref_fa)
 	mkdir -p $(ref)-k$*
 	ABYSS -v -k$* -e0 -t0 -c0 $< -o $@ -s $(ref)-k$*/$(name)-bubbles.fa 2>&1 |tee $@.log
+
+# Convert scaffolds to scaftigs
+%-scaftigs.fa: %-scaffolds.fa
+	abyss-fatoagp -f $@ $< >$@.agp
+
+# DISCOVARdenovo
+
+discovardenovo/$(name)-scaffolds.fa: discovardenovo/$(name)/a.final/a.lines.fasta
+	seqtk seq $< >$@
+
+# BWA
+
+# Align scaffolds to the reference using BWA-MEM
+$(ref)_%.sam: %.fa
+	bwa mem -xintractg -t$t $(ref_fa) $< >$@
+
+# Samtools
+
+# Sort a SAM file and output a BAM file
+%.sort.bam: %.sam
+	samtools sort -@$t -o $@ $<
 
 # QUAST
 
