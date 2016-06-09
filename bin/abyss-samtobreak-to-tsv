@@ -1,0 +1,7 @@
+#!/bin/sh
+# Convert abyss-samtobreak output to TSV
+set -eu -o pipefail
+printf "k\tNGA50\tScaffold_breakpoints\n"
+egrep '==>|Aligned scaffold NG50|Number of Q10 scaffold breakpoints longer than 500 bp' "$@" \
+| sed -E 's/^==> k([0-9]*).*/\1/;s/^.*: //' \
+| paste -d'\t' - - -

@@ -1,0 +1,25 @@
+#!/bin/sh
+# Written by Shaun Jackman
+set -eu
+
+# Path of executables
+bin=/gsc/btl/linuxbrew/bin
+
+# Number of threads
+t=12
+
+options=""
+if [ "$1" == "-hold_jid" ]; then
+	options="$1 $2"
+	shift 2
+fi
+
+for i; do
+	N=`echo $i | tr / _`
+	set -x
+	qsub $options -N $N -q arc.q -P arc.prj -j y -o 'log/$JOB_NAME.$JOB_ID' \
+		-m ae -M sjackman@gmail.com \
+		-pe ncpus $t -l mem_token=3.75G,mem_free=3.75G,h_vmem=3.75G,excl=true \
+		-v PATH=$bin -S $bin/zsh -b y $bin/make t=$t $i
+	set +x
+done

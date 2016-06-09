@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu -o pipefail
+(printf "Q\tk\tF0\tf1\tF1\n"; \
+	gsed 's/[^ ]* = //g;s/, /\n/' "$@" | paste -d'\t' - - - - -) \
+	| estimate.py /dev/stdin
