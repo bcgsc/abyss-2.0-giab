@@ -15,9 +15,10 @@ ref_gff=/genesis/extscratch/btl/reference_genomes/H_sapiens/GRCh38/Homo_sapiens.
 # Parallelize gzip
 gzip = pigz -p$t
 
-# Report run time
+# Report run time and memory usage
 export SHELL=zsh -opipefail
 export REPORTTIME=1
+export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 
 .DELETE_ON_ERROR:
 .SECONDARY:
