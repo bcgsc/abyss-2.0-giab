@@ -197,9 +197,11 @@ $(bfc): %.bfc: %.realpath
 %.bfc.merged.fq.gz: %_1.bfc.fq.gz %_2.bfc.fq.gz
 	abyss-mergepairs -v -p0.9 -m10 -q10 -o $*.bfc $^ >$*_merged.tsv
 	mv $*.bfc_merged.fastq $*.bfc.merged.fq
-	mv $*.bfc_reads_1.fastq $*.bfc.reads_1.fq
-	mv $*.bfc_reads_2.fastq $*.bfc.reads_2.fq
-	$(gzip) $*.bfc.merged.fq $*.bfc.reads_1.fq $*.bfc.reads_2.fq
+	mv $*.bfc_reads_1.fastq $*.bfc.unmerged_1.fq
+	mv $*.bfc_reads_2.fastq $*.bfc.unmerged_2.fq
+	$(gzip) $*.bfc.merged.fq
+	$(gzip) $*.bfc.unmerged_1.fq
+	$(gzip) $*.bfc.unmerged_2.fq
 
 # Miscellaneous
 
