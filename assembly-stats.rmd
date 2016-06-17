@@ -9,33 +9,42 @@ output:
 ```{r install-packages, eval=FALSE, echo=FALSE}
 install.packages("dplyr")
 install.packages("ggplot2")
+install.packages("ggrepel")
 install.packages("knitr")
 install.packages("magrittr")
+install.packages("readr")
 install.packages("tidyr")
 ```
 
 ```{r load-libraries, message=FALSE}
 library(dplyr)
 library(ggplot2)
+library(ggrepel)
 library(knitr)
 library(magrittr)
+library(readr)
 library(tidyr)
 ```
 
 ```{r read-data}
-data.orig <- read.delim("assembly-stats.tsv", as.is = TRUE)
+data_orig <- read_tsv("assembly-stats.tsv")
+scaffolds_data <- read_tsv("samtobreak.tsv")
 ```
 
 ```{r tidy-data}
-data <- data.orig %>%
+data <- data_orig %>%
 	separate(name, c("Directory", "File"), "/") %>%
 	separate(File, c("Species", "Stage", "Ext")) %>%
 	select(-Ext) %>%
 	mutate(Directory = factor(Directory, unique(Directory)),
 		Stage = factor(Stage, unique(Stage))) %>%
 	mutate(Name = factor(Directory,
-		levels = c("k96", "k128"),
-		labels = c("ABySS 1.9.0 k=96", "ABySS 1.9.0 k=128")))
+		levels = c("k96", "k128", "k144", "k192"),
+		labels = c(
+			"ABySS 1.9.0 k=96",
+			"ABySS 1.9.0 k=128",
+			"ABySS 1.9.0 k=144",
+			"ABySS 1.9.0 k=192")))
 ```
 
 # ABySS contigs
@@ -74,9 +83,22 @@ ggplot(data = data) +
 	geom_hline(aes(yintercept = NG50, color = Name),
 		data = data %>% filter(Stage == "1"),
 		linetype = "dashed") +
-	scale_x_discrete(labels = c("haptigs", "unitigs", "contigs", "scaffolds", "scaftigs")) +
+	scale_x_discrete(labels = c("preunitigs", "unitigs", "contigs", "scaffolds", "scaftigs")) +
 	scale_y_log10(breaks = 10^(3:7), labels = c("1 kbp", "10 kbp", "100 kbp", "1 Mbp", "10 Mbp")) +
 	scale_colour_brewer(name = NULL, palette = "Dark2") +
+	theme_grey(28) +
+	theme(legend.position = c(.35, .85))
+```
+
+# Plot scaffold NGA50 and breakpoints
+```{r plot-scaffold-NGA50-breakpoints}
+ggplot(data = scaffolds_data %>% filter(as.integer(k) %% 8 == 0)) +
+  aes(x = Scaffold_breakpoints, y = Scaffold_NGA50 / 1e6, label = k) +
+  xlab("Scaffold breakpoints") + ylab("Scaffold NGA50 (Mbp)") +
+  geom_path() +
+  geom_point(size = 3) +
+  geom_text_repel() +
+  scale_colour_brewer(name = NULL, palette = "Dark2") +
 	theme_grey(28) +
 	theme(legend.position = c(.35, .85))
 ```
@@ -84,4 +106,9 @@ ggplot(data = data) +
 # Table of ABySS assembly stats
 ```{r tabulate-assembly-stats}
 kable(data)
+```
+
+# Table of aligned assembly stats
+```{r tabulate-aligned-stats}
+kable(scaffolds_data)
 ```
