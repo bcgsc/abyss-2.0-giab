@@ -137,14 +137,12 @@ HG004/MPHG004-23110109/%.md5: AshkenazimTrio/%.tsv
 # KmerStream
 
 # Count k-mers
-%.kmerstream: %.realpath
-	KmerStream -t$t -s2 -k31,32,33,63,64,65,95,96,97,127,128,129,159,160,161,191,192,193,223,224,225 -o$@ `<$<`
+%.kmerstream.orig: %.realpath
+	KmerStream -t$t -s1 --tsv -k16,32,48,64,80,96,112,128,144,160,176,192,208,224,240 -o$@ `<$<`
 
-# Convert to TSV
-%.kmerstream.tsv: %.kmerstream
-	(printf "Q\tk\tF0\tf1\tF1\n"; \
-		gsed 's/[^ ]* = //g;s/, /\n/' $< | paste -d'\t' - - - - -) \
-		| estimate.py /dev/stdin >$@
+# Estimate additional parameters.
+%.kmerstream.tsv: %.kmerstream.orig
+	awk '$$3 > 0' $< | KmerStreamEstimate.py /dev/stdin >$@
 
 # NxTrim
 
