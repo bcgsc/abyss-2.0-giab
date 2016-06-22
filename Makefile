@@ -237,6 +237,10 @@ $(ref)_%.sam: %.fa
 %.sort.bam: %.sam
 	samtools sort -@$t -o $@ $<
 
+# Index a BAM file
+%.sort.bam.bai: %.sort.bam
+	samtools index $<
+
 # QUAST
 
 # Analayze the assemblies using QUAST
