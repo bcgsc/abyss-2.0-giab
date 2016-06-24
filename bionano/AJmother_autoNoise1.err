@@ -1,0 +1,28 @@
+# hostname=ypsilon8.bnm.local
+# $ cd /home/users/tliang; /home/users/csecol/software/internal/ra4398_p4307_h4323/tools/RefAligner -f -i /mnt/bionf_tmp/tliang/data/20160117_Ashkenazi_mother_hap/output/all_sorted.bnx -ref /home/users/csecol/genomes/human/hg19/hg19_chromosome_bspq.cmap -o /mnt/bionf_tmp/tliang/data/20160117_Ashkenazi_mother_hap/output/contigs/auto_noise/autoNoise1 -stdout -stderr -FP 0.437739 -readparameters /mnt/bionf_tmp/tliang/data/20160117_Ashkenazi_mother_hap/output/contigs/auto_noise/autoNoise0.errbin -sr 0.050083 -bpp 508.4 -sf 0.439035 -FN 0.149019 -sd -0.192948 -usecolor 1 -MaxSE 0.5 -se 0.25 -A 2 -L 0 -BestRef 1 -BestRefPV 1 -outlier 1e-3 -outlierMax 40. -endoutlier 1e-4 -nosplit 2 -biaswt 0 -S -1000 -PVres 2 -PVendoutlier -AlignRes 1.5 -rres 1.2 -resEstimate -f -maptype 0 -maxmem 128 -T 1e-11 -M 5 3 -resbias 4.0 64 -randomize 1 -ScanScaling 2 -subset 1 100000 -hashgen 5 3 2.4 1.5 0.05 5.0 1 1 3 -hash -hashdelta 10 10 -hashMultiMatch 15 -hashoffset 1 -insertThreads 4 -RepeatMask 5 0.01 -RepeatRec 0.7 0.6 1.4 -maxEnd 90. -XmapStatWrite /mnt/bionf_tmp/tliang/data/20160117_Ashkenazi_mother_hap/output/molecule_stats.txt
+# CompileDir= /home/users3/tanantharaman/tools/4398/4398 CompileCmd=/opt/gcc-4.9.2TSAN/bin/g++  -fopenmp -Ofast -fno-associative-math -mavx -mfpmath=sse -DUSE_PFLOAT=1 -DUSE_RFLOAT=1 -DUSE_SSE=1 -I/home/users/tanantharaman/amdlibm-3-0-2/include -DREPLACE_WITH_AMDLIBM -DUSE_STATIC -flto  -lrt -L/home/users/tanantharaman/amdlibm-3-0-2/lib/static -lamdlibm -L/opt/gcc-4.9.2TSAN/lib64 -static  SVNversion=4398 $Header: http://svn.bnm.local:81/svn/Informatics/RefAligner/trunk/RefAligner.cpp 4371 2015-12-24 00:48:15Z tanantharaman $
+# FLAGS: USE_SSE=1 USE_AVX=1 USE_MIC=0 USE_PFLOAT=1 USE_RFLOAT=1 DEBUG=1 VERB=1
+# See /mnt/bionf_tmp/tliang/data/20160117_Ashkenazi_mother_hap/output/contigs/auto_noise/autoNoise1.errbias for bias parameters
+# See /mnt/bionf_tmp/tliang/data/20160117_Ashkenazi_mother_hap/output/contigs/auto_noise/autoNoise1.maprate for final mapping rate distribution
+# Label Channels:	1
+Iteration	FP(/100kb)	FN(rate)	sf	sd	bpp	res(pixels)	Maps	Log10LR(/Maps)	GoodMaps	log10LR(/GoodMaps)	bppSD	FPrate	sr	se	LabelDensity(/100kb)	resSD(pixels)	mres(x500bp)	mresSD(x500bp)	minSNR
+0	0.437739	0.149019	0.439035	-0.192948	508.40	3.638	100000	17.357948	60686	17.357948	0.00	0.000000	0.050083	0.189	12.356	0.579160	0.900	0.000	0.100
+1	0.486959	0.144210	0.297739	-0.130168	509.82	3.605	100000	18.940870	66291	18.940870	8.61	0.039512	0.040406	0.203	12.331	0.573846	0.900	0.000	0.100
+2	0.433985	0.146710	0.252910	-0.105086	509.59	3.481	100000	19.090273	66847	19.090273	4.97	0.035178	0.033626	0.194	12.335	0.545500	0.900	0.000	0.100
+3	0.436572	0.152360	0.234275	-0.091475	509.42	3.455	100000	19.133303	66970	19.133303	4.75	0.035380	0.029777	0.186	12.338	0.522708	0.900	0.000	0.100
+4	0.443248	0.156080	0.225100	-0.083566	509.34	3.444	100000	19.148313	67016	19.148313	4.66	0.035921	0.027555	0.180	12.339	0.516593	0.900	0.000	0.100
+5	0.447213	0.158238	0.220008	-0.078635	509.30	3.439	100000	0.000000	0	0.000000	4.61	0.036241	0.026211	0.177	0.000	0.514690	0.900	0.000	0.100
+# set 2 of 5 iterations
+0	0.447213	0.158238	0.220008	-0.078635	509.30	3.439	100000	19.315197	65959	19.315197	0.00	0.000000	0.026211	0.177	12.338	0.514690	0.900	0.000	0.100
+1	0.447239	0.158314	0.216240	-0.075106	509.23	3.432	100000	19.317178	65986	19.317178	4.53	0.036244	0.025247	0.174	12.339	0.512932	0.900	0.000	0.100
+2	0.447831	0.158804	0.213911	-0.072632	509.20	3.431	100000	19.316995	65998	19.316995	4.50	0.036291	0.024611	0.173	12.340	0.512797	0.900	0.000	0.100
+3	0.448085	0.159165	0.212335	-0.070911	509.19	3.430	100000	19.316125	66008	19.316125	4.49	0.036310	0.024192	0.172	12.341	0.513593	0.900	0.000	0.100
+4	0.448275	0.159436	0.211311	-0.069793	509.18	3.430	100000	19.316289	66009	19.316289	4.48	0.036323	0.023928	0.172	12.341	0.514451	0.900	0.000	0.100
+5	0.448296	0.159555	0.210676	-0.069072	509.18	3.430	100000	0.000000	0	0.000000	4.48	0.036324	0.023757	0.171	0.000	0.515370	0.900	0.000	0.100
+# set 3 of 5 iterations
+0	0.448296	0.159555	0.210676	-0.069072	509.18	3.430	100000	19.353665	65748	19.353665	0.00	0.000000	0.023757	0.171	12.344	0.515370	0.900	0.000	0.100
+1	0.447770	0.159496	0.210283	-0.068649	509.16	3.430	100000	19.352578	65755	19.352578	4.45	0.036273	0.023627	0.171	12.344	0.515746	0.900	0.000	0.100
+2	0.447867	0.159519	0.210041	-0.068368	509.16	3.430	100000	19.353032	65754	19.353032	4.45	0.036281	0.023549	0.171	12.344	0.516349	0.900	0.000	0.100
+3	0.447843	0.159520	0.209901	-0.068190	509.15	3.430	100000	19.352689	65755	19.352689	4.45	0.036279	0.023499	0.171	12.345	0.516712	0.900	0.000	0.100
+4	0.447896	0.159483	0.209785	-0.068068	509.15	3.430	100000	19.352434	65756	19.352434	4.45	0.036282	0.023470	0.171	12.345	0.516926	0.900	0.000	0.100
+5	0.447919	0.159524	0.209705	-0.067991	509.15	3.431	100000	0.000000	0	0.000000	4.45	0.036284	0.023454	0.171	0.000	0.517031	0.900	0.000	0.100
