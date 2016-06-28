@@ -17,12 +17,22 @@ not_scaffolded=$(scaffolds_prefix)_NOT_SCAFFOLDED.fasta
 
 all: \
 	default-B1-N1/hsapiens-scaftigs.samtobreak.tsv \
+	default-B1-N2/hsapiens-scaftigs.samtobreak.tsv \
 	default-B1-N3/hsapiens-scaftigs.samtobreak.tsv \
+	default-B2-N1/hsapiens-scaftigs.samtobreak.tsv \
+	default-B2-N2/hsapiens-scaftigs.samtobreak.tsv \
+	default-B2-N3/hsapiens-scaftigs.samtobreak.tsv \
 	default-B3-N1/hsapiens-scaftigs.samtobreak.tsv \
+	default-B3-N2/hsapiens-scaftigs.samtobreak.tsv \
 	default-B3-N3/hsapiens-scaftigs.samtobreak.tsv \
 	aggressive-B1-N1/hsapiens-scaftigs.samtobreak.tsv \
+	aggressive-B1-N2/hsapiens-scaftigs.samtobreak.tsv \
 	aggressive-B1-N3/hsapiens-scaftigs.samtobreak.tsv \
+	aggressive-B2-N1/hsapiens-scaftigs.samtobreak.tsv \
+	aggressive-B2-N2/hsapiens-scaftigs.samtobreak.tsv \
+	aggressive-B2-N3/hsapiens-scaftigs.samtobreak.tsv \
 	aggressive-B3-N1/hsapiens-scaftigs.samtobreak.tsv \
+	aggressive-B3-N2/hsapiens-scaftigs.samtobreak.tsv \
 	aggressive-B3-N3/hsapiens-scaftigs.samtobreak.tsv
 
 .DELETE_ON_ERROR:
@@ -41,6 +51,12 @@ NA24143_91x_150kb.tar.gz:
 		-b EXP_REFINEFINAL1_q.cmap \
 		-o $* \
 		-r $(bin)/RefAligner \
+		-x \
+		-y \
+		-m all.bnx \
+		-p $(scripts) \
+		-q $(scripts)/optArguments_human.xml \
+		-e AJmother_autoNoise1.err \
 		-c `echo $* | sed 's/-/ -/g'`
 
 %/hsapiens-scaffolds.fa: %/hybrid_scaffolds/$(not_scaffolded) %/hybrid_scaffolds/$(scaffolded)
