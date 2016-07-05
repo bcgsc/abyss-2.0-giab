@@ -3,6 +3,14 @@
 # Number of threads
 t=32
 
+# Report run time and memory usage
+export SHELL=zsh -opipefail
+export REPORTTIME=1
+export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
+
+# Path to ABySS executables
+abyss_bin=/gsc/btl/linuxbrew/Cellar/abyss/1.9.0-k256/bin
+
 # Reference genome
 ref=GRCh38
 ref_fa=/projects/btl/reference_genomes/H_sapiens/GRCh38/GCA_000001405.15_GRCh38_genomic.chr-only.fa
@@ -15,7 +23,9 @@ scaffolds_prefix=EXP_REFINEFINAL1_q_bppAdjust_cmap_hsapiens-8_fa_NGScontigs_HYBR
 scaffolded=$(scaffolds_prefix).fasta
 not_scaffolded=$(scaffolds_prefix)_NOT_SCAFFOLDED.fasta
 
-all: \
+all: aggressive-B2-N2/hsapiens-sealed-scaftigs.samtobreak.tsv
+
+optimize-hybridscaffold: \
 	default-B1-N1/hsapiens-scaftigs.samtobreak.tsv \
 	default-B1-N2/hsapiens-scaftigs.samtobreak.tsv \
 	default-B1-N3/hsapiens-scaftigs.samtobreak.tsv \
@@ -70,13 +80,36 @@ NA24143_91x_150kb.tar.gz:
 
 # ABySS
 
+# Fill in gaps using ABySS-sealer
+%-sealed-scaffolds.fa: %-scaffolds.fa
+	$(abyss_bin)/abyss-sealer -v -j$t --print-flanks \
+		-L500 -F1500 -B300 \
+		-o $* -t $*.sealer.tsv -S $< \
+		-k64 -k80 -k96 -k112 -k128 -k144 -k160 -k176 -k192 -k208 -k224 -k240 \
+		-i$(*F).k64.bloom -i$(*F).k80.bloom -i$(*F).k96.bloom -i$(*F).k112.bloom -i$(*F).k128.bloom -i$(*F).k144.bloom -i$(*F).k160.bloom -i$(*F).k176.bloom -i$(*F).k192.bloom -i$(*F).k208.bloom -i$(*F).k224.bloom -i$(*F).k240.bloom \
+		/dev/null
+	mv $*_scaffold.fa $@
+
+# Fill in gaps using ABySS-sealer varying parameter F
+dir=aggressive-B2-N2
+name=hsapiens
+$(dir)/F%/$(name)-sealer-scaffolds.fa: $(dir)/$(name)-scaffolds.fa
+	mkdir $(@D)
+	$(abyss_bin)/abyss-sealer -v -j$t --print-flanks \
+		-L500 -F$* -B300 \
+		-o $(@D)/$(name) -t $(@D)/$(name).sealer.tsv -S $< \
+		-k64 -k80 -k96 -k112 -k128 -k144 -k160 -k176 -k192 -k208 -k224 -k240 \
+		-i$(name).k64.bloom -i$(name).k80.bloom -i$(name).k96.bloom -i$(name).k112.bloom -i$(name).k128.bloom -i$(name).k144.bloom -i$(name).k160.bloom -i$(name).k176.bloom -i$(name).k192.bloom -i$(name).k208.bloom -i$(name).k224.bloom -i$(name).k240.bloom \
+		/dev/null
+	mv $(@D)/$(name)_scaffold.fa $@
+
 # Convert scaffolds to scaftigs
 %-scaftigs.fa: %-scaffolds.fa
 	abyss-fatoagp -f $@ $< >$@.agp
 
 # abyss-samtobreak
 %.samtobreak.txt: %.sam
-	bin/abyss-samtobreak-G3088269832 -l500 $< >$@
+	(echo '==> $< <=='; bin/abyss-samtobreak-G3088269832 -l500 $<) >$@
 
 %.samtobreak.tsv: %.samtobreak.txt
 	bin/abyss-samtobreak-to-tsv $< >$@
