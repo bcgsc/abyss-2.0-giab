@@ -220,6 +220,14 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 %-scaftigs.fa: %-scaffolds.fa
 	abyss-fatoagp -f $@ $< >$@.agp
 
+# Calculate assembly contiguity and correctness metrics
+%.samtobreak.txt: %.sam
+	abyss-samtobreak-G3088269832 -l500 $^ >$@
+
+# Convert samtobreak.txt to TSV
+%.samtobreak.tsv: %.samtobreak.txt
+	abyss-samtobreak-to-tsv $< >$@
+
 # DISCOVARdenovo
 
 discovardenovo/$(name)-scaffolds.fa: discovardenovo/$(name)/a.final/a.lines.fasta
