@@ -9,8 +9,8 @@ t=8
 
 # Reference genome
 ref=GRCh38
-ref_fa=/genesis/extscratch/btl/reference_genomes/H_sapiens/GRCh38/GCA_000001405.15_GRCh38_genomic.chr-only.fa
-ref_gff=/genesis/extscratch/btl/reference_genomes/H_sapiens/GRCh38/Homo_sapiens.GRCh38.84.chr.gff
+ref_fa=/projects/btl/reference_genomes/H_sapiens/GRCh38/GCA_000001405.15_GRCh38_genomic.chr-only.fa
+ref_gff=/projects/btl/reference_genomes/H_sapiens/GRCh38/Homo_sapiens.GRCh38.84.chr.gff
 
 # Parallelize gzip
 gzip = pigz -p$t
