@@ -61,6 +61,11 @@ bfc_kmerstream: \
 abyss_ref: \
 	$(ref)-k128/$(name)-1.fa
 
+bionano: \
+	discovardenovo/BESST/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	discovardenovo/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
+
 .PHONY: discovardenovo
 discovardenovo: discovardenovo/$(name)-scaftigs.fa
 
@@ -222,7 +227,7 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 
 # Calculate assembly contiguity and correctness metrics
 %.samtobreak.txt: %.sam
-	abyss-samtobreak-G3088269832 -l500 $^ >$@
+	(echo '==> $< <=='; bin/abyss-samtobreak-G3088269832 -l500 $<) >$@
 
 # Convert samtobreak.txt to TSV
 %.samtobreak.tsv: %.samtobreak.txt
@@ -232,6 +237,24 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 
 discovardenovo/$(name)-scaffolds.fa: discovardenovo/$(name)/a.final/a.lines.fasta
 	seqtk seq $< >$@
+
+# BioNano Genomics
+
+bionano_prefix=EXP_REFINEFINAL1_q_bppAdjust_cmap_hsapiens-scaffolds_fa_NGScontigs_HYBRID_SCAFFOLD
+
+# HybridScaffold
+%/bionano/hybrid_scaffolds/$(bionano_prefix)_NOT_SCAFFOLDED.fasta %/bionano/hybrid_scaffolds/$(bionano_prefix).fasta: %/hsapiens-scaffolds.fa
+	/usr/bin/perl /gsc/btl/linuxbrew/Cellar/iryssolve/2.1.5063/scripts/HybridScaffold/hybridScaffold.pl \
+		-n $< \
+		-b bionano/aggressive-B2-N2/align0/EXP_REFINEFINAL1_q.cmap \
+		-c bionano/hybridScaffold_config_aggressive.xml \
+		-B2 -N2 \
+		-o $*/bionano \
+		-r /gsc/btl/linuxbrew/Cellar/iryssolve/2.1.5063/bin/RefAligner
+
+# Delete undescores from sequence identifiers for abyss-samtobreak
+%/hsapiens-scaffolds.fa: %/hybrid_scaffolds/$(bionano_prefix)_NOT_SCAFFOLDED.fasta %/hybrid_scaffolds/$(bionano_prefix).fasta
+	cat $^ | tr -d _ >$@
 
 # BWA
 
