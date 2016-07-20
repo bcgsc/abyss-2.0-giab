@@ -50,8 +50,8 @@ hsapiens.k%.bloom: $(shell cat pe400.in)
 	$(abyss_bin)/abyss-sealer -v -j$t --print-flanks \
 		-L500 -F1500 -B300 \
 		-o $* -t $*.sealer.tsv -S $< \
-		-k64 -k96 -k128 -k160 -k192 -k224 \
-		-i$(*F).k64.bloom -i$(*F).k96.bloom -i$(*F).k128.bloom -i$(*F).k160.bloom -i$(*F).k192.bloom -i$(*F).k224.bloom \
+		-k64 -k80 -k96 -k112 -k128 -k144 -k160 -k176 -k192 -k208 -k224 -k240 \
+		-i$(*F).k64.bloom -i$(*F).k80.bloom -i$(*F).k96.bloom -i$(*F).k112.bloom -i$(*F).k128.bloom -i$(*F).k144.bloom -i$(*F).k160.bloom -i$(*F).k176.bloom -i$(*F).k192.bloom -i$(*F).k208.bloom -i$(*F).k224.bloom -i$(*F).k240.bloom \
 		/dev/null
 	mv $*_scaffold.fa $@
 
