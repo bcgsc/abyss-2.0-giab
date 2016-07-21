@@ -1,45 +1,47 @@
 # Reference genome
 ref=GRCh38
-ref_fa=/genesis/extscratch/btl/reference_genomes/H_sapiens/GRCh38/GCA_000001405.15_GRCh38_genomic.chr-only.fa
+ref_fa=/projects/btl/reference_genomes/H_sapiens/GRCh38/GCA_000001405.15_GRCh38_genomic.chr-only.fa
 
 # Number of threads
-t=12
+t=64
 
 # Path to ABySS executables
 abyss_bin=/home/benv/arch/genesis/abyss-1.9.0/k256/bin
+
+# Report run time and memory usage
+export SHELL=zsh -opipefail
+export REPORTTIME=1
+export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 
 .DELETE_ON_ERROR:
 .SECONDARY:
 
 all: \
-	k96/$(ref)_hsapiens-sealed-scaftigs.sort.bam \
-	k112/$(ref)_hsapiens-sealed-scaftigs.sort.bam \
-	k128/$(ref)_hsapiens-sealed-scaftigs.sort.bam \
-	k144/$(ref)_hsapiens-sealed-scaftigs.sort.bam \
-	k160/$(ref)_hsapiens-sealed-scaftigs.sort.bam \
-	k176/$(ref)_hsapiens-sealed-scaftigs.sort.bam \
-	k192/$(ref)_hsapiens-sealed-scaftigs.sort.bam
+	k144/$(ref)_hsapiens-scaftigs.samtobreak.tsv \
+	k144/$(ref)_hsapiens-sealed-scaftigs.samtobreak.tsv
 
-bwamem: \
-	k96/$(ref)_hsapiens-scaftigs.sort.bam \
-	k112/$(ref)_hsapiens-scaftigs.sort.bam \
-	k128/$(ref)_hsapiens-scaftigs.sort.bam \
-	k136/$(ref)_hsapiens-scaftigs.sort.bam \
-	k140/$(ref)_hsapiens-scaftigs.sort.bam \
-	k144/$(ref)_hsapiens-scaftigs.sort.bam \
-	k148/$(ref)_hsapiens-scaftigs.sort.bam \
-	k152/$(ref)_hsapiens-scaftigs.sort.bam \
-	k160/$(ref)_hsapiens-scaftigs.sort.bam \
-	k176/$(ref)_hsapiens-scaftigs.sort.bam \
-	k192/$(ref)_hsapiens-scaftigs.sort.bam
+# BWA
 
 # Align scaffolds to the reference using BWA-MEM
 $(ref)_%.sam: %.fa
 	bwa mem -xintractg -t$t $(ref_fa) $< >$@
 
+# samtools
+
 # Sort a SAM file and output a BAM file
 %.sort.bam: %.sam
 	samtools sort -@$t -o $@ $<
+
+# ABySS
+
+k%/hsapiens-scaffolds.fa: pe400.in mp6k+unknown.in
+	name=hsapiens np=$t k=$* q=15 v=-v \
+		l=40 s=1000 n=10 \
+		S=1000-10000 N=15 mp6k_de=--mean mp6k_n=1 \
+		lib=pe400 pe400=`<pe400.in` \
+		mp=mp6k mp6k=`<mp6k+unknown.in` \
+		JOB_ID=k$* stages="unitigs pe-sam contigs mp-sam scaffolds scaftigs" \
+		/projects/btl/bloom-dbg/assembler-comparison/common/run-abyss-1.9.0
 
 # Construct a Bloom filter
 hsapiens.k%.bloom: $(shell cat pe400.in)
@@ -58,3 +60,11 @@ hsapiens.k%.bloom: $(shell cat pe400.in)
 # Convert scaffolds to scaftigs
 %-scaftigs.fa: %-scaffolds.fa
 	abyss-fatoagp -f $@ $< >$@.agp
+
+# Calculate assembly contiguity and correctness metrics
+%.samtobreak.txt: %.sam
+	(echo '==> $< <=='; abyss-samtobreak-G3088269832 -l500 $<) >$@
+
+# Convert samtobreak.txt to TSV
+%.samtobreak.tsv: %.samtobreak.txt
+	abyss-samtobreak-to-tsv $< >$@
