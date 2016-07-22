@@ -40,7 +40,8 @@ k%/hsapiens-scaffolds.fa: pe400.in mp6k+unknown.in
 		S=1000-10000 N=15 mp6k_de=--mean mp6k_n=1 \
 		lib=pe400 pe400=`<pe400.in` \
 		mp=mp6k mp6k=`<mp6k+unknown.in` \
-		JOB_ID=k$* stages="unitigs pe-sam contigs mp-sam scaffolds scaftigs" \
+		JOB_ID=k$* stages="unitigs contigs mp-sam scaffolds scaftigs" \
+		TMPDIR=/var/tmp/${USER} \
 		/projects/btl/bloom-dbg/assembler-comparison/common/run-abyss-1.9.0
 
 # Construct a Bloom filter
