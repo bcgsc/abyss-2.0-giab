@@ -80,19 +80,21 @@ rmarkdown: \
 
 # Install dependencies
 
-deps=abyss bfc bwa discovardenovo fastqc jq kmerstream nxtrim pigz samtools seqtk
+brew_deps=abyss allpaths-lg bcalm bfc bwa discovardenovo fastqc jq kmerstream links-scaffolder masurca minia nxtrim pigz samtools seqtk sga soapdenovo
+pip_deps=besst
 
 deps:
-	@echo $(deps)
+	@echo $(brew_deps) $(pip_deps)
 
 install-deps:
-	brew install $(deps)
+	brew install $(brew_deps)
+	pip install $(pip_deps)
 
 versions.json:
-	brew info --json=v1 $(deps) >$@
+	brew info --json=v1 $(brew_deps) >$@
 
 versions.tsv: %.tsv: %.json
-	jq -r '["Name", "Version"],(.[]|[.name,.linked_keg])|@tsv' $< >$@
+	jq -r '["Name", "Version"],(.[]|[.name,.versions.stable])|@tsv' $< >$@
 
 # Download the data
 
