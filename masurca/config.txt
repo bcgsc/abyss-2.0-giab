@@ -1,0 +1,69 @@
+# DATA is specified as type {PE,JUMP,OTHER} and 5 fields:
+# 1)two_letter_prefix 2)mean 3)stdev 4)fastq(.gz)_fwd_reads
+# 5)fastq(.gz)_rev_reads. The PE reads are always assumed to be
+# innies, i.e. --->.<---, and JUMP are assumed to be outties
+# <---.--->. If there are any jump libraries that are innies, such as
+# longjump, specify them as JUMP and specify NEGATIVE mean. Reverse reads
+# are optional for PE libraries and mandatory for JUMP libraries. Any
+# OTHER sequence data (454, Sanger, Ion torrent, etc) must be first
+# converted into Celera Assembler compatible .frg files (see
+# http://wgs-assembler.sourceforge.com)
+DATA
+PE= 01 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_001.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_001.bfc.fq.gz
+PE= 02 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_002.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_002.bfc.fq.gz
+PE= 03 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_003.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_003.bfc.fq.gz
+PE= 04 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_004.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_004.bfc.fq.gz
+PE= 05 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_005.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_005.bfc.fq.gz
+PE= 06 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_006.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_006.bfc.fq.gz
+PE= 07 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_007.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_007.bfc.fq.gz
+PE= 08 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_008.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_008.bfc.fq.gz
+PE= 09 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_009.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_009.bfc.fq.gz
+PE= 10 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_010.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_010.bfc.fq.gz
+PE= 11 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_011.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_011.bfc.fq.gz
+PE= 12 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_012.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_012.bfc.fq.gz
+PE= 13 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R1_013.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L001_R2_013.bfc.fq.gz
+PE= 14 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_001.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_001.bfc.fq.gz
+PE= 15 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_002.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_002.bfc.fq.gz
+PE= 16 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_003.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_003.bfc.fq.gz
+PE= 17 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_004.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_004.bfc.fq.gz
+PE= 18 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_005.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_005.bfc.fq.gz
+PE= 19 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_006.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_006.bfc.fq.gz
+PE= 20 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_007.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_007.bfc.fq.gz
+PE= 21 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_008.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_008.bfc.fq.gz
+PE= 22 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_009.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_009.bfc.fq.gz
+PE= 23 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_010.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_010.bfc.fq.gz
+PE= 24 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_011.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_011.bfc.fq.gz
+PE= 25 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_012.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_012.bfc.fq.gz
+PE= 26 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_013.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_013.bfc.fq.gz
+PE= 27 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R1_014.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S1_L002_R2_014.bfc.fq.gz
+PE= 28 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L001_R1_001.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L001_R2_001.bfc.fq.gz
+PE= 29 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L001_R1_002.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L001_R2_002.bfc.fq.gz
+PE= 30 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L001_R1_003.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L001_R2_003.bfc.fq.gz
+PE= 31 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L001_R1_004.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L001_R2_004.bfc.fq.gz
+PE= 32 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L002_R1_001.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L002_R2_001.bfc.fq.gz
+PE= 33 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L002_R1_002.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L002_R2_002.bfc.fq.gz
+PE= 34 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L002_R1_003.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L002_R2_003.bfc.fq.gz
+PE= 35 400 90 /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L002_R1_004.bfc.fq.gz /projects/btl/datasets/hsapiens/giab/HG004/D3_S3_L002_R2_004.bfc.fq.gz
+JUMP= m1 6000 1400 /projects/btl/datasets/hsapiens/giab/HG004/MPHG004-23100079/MPHG004_S3_L003_R1_001.fastq.gz /projects/btl/datasets/hsapiens/giab/HG004/MPHG004-23100079/MPHG004_S3_L003_R2_001.fastq.gz
+JUMP= m2 6000 1400 /projects/btl/datasets/hsapiens/giab/HG004/MPHG004-23110109/MPHG004_S3_L003_R1_001.fastq.gz /projects/btl/datasets/hsapiens/giab/HG004/MPHG004-23110109/MPHG004_S3_L003_R2_001.fastq.gz
+END
+
+PARAMETERS
+#this is k-mer size for deBruijn graph values between 25 and 101 are supported, auto will compute the optimal size based on the read data and GC content
+GRAPH_KMER_SIZE = auto
+#set this to 1 for Illumina-only assemblies and to 0 if you have 1x or more long (Sanger, 454) reads, you can also set this to 0 for large data sets with high jumping clone coverage, e.g. >50x
+USE_LINKING_MATES = 1
+#this parameter is useful if you have too many jumping library mates. Typically set it to 60 for bacteria and 300 for the other organisms
+LIMIT_JUMP_COVERAGE = 300
+#these are the additional parameters to Celera Assembler.  do not worry about performance, number or processors or batch sizes -- these are computed automatically.
+#set cgwErrorRate=0.25 for bacteria and 0.1<=cgwErrorRate<=0.15 for other organisms.
+CA_PARAMETERS = cgwErrorRate=0.15 ovlMemory=4GB
+#minimum count k-mers used in error correction 1 means all k-mers are used.  one can increase to 2 if coverage >100
+KMER_COUNT_THRESHOLD = 1
+#auto-detected number of cpus to use
+NUM_THREADS = 64
+#this is mandatory jellyfish hash size -- a safe value is estimated_genome_size*estimated_coverage
+JF_SIZE = 200000000
+#this specifies if we do (1) or do not (0) want to trim long runs of homopolymers (e.g. GGGGGGGG) from 3' read ends, use it for high GC genomes
+DO_HOMOPOLYMER_TRIM = 0
+END
