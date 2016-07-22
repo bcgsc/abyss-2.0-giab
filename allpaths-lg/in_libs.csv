@@ -1,0 +1,3 @@
+library_name,project_name,organism_name,type,paired,frag_size,frag_stddev,insert_size,insert_stddev,read_orientation,genomic_start,genomic_end
+pe400,giab,hsapiens,fragment,1,400,90,0,0,inward,0,0
+mp6k,giab,hsapiens,jumping,1,0,0,6000,1400,outward,0,0
