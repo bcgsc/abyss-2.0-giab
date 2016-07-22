@@ -6,7 +6,7 @@ set -eu
 bin=/gsc/btl/linuxbrew/bin
 
 # Number of threads
-t=12
+t=16
 
 options=""
 if [ "$1" == "-hold_jid" ]; then
@@ -19,7 +19,7 @@ for i; do
 	set -x
 	qsub $options -N $N -q arc.q -P arc.prj -j y -o 'log/$JOB_NAME.$JOB_ID' \
 		-m ae -M sjackman@gmail.com \
-		-pe ncpus $t -l mem_token=3.75G,mem_free=3.75G,h_vmem=3.75G,excl=true \
+		-pe ncpus $t -l mem_token=7.5G,mem_free=7.5G,h_vmem=7.5G,excl=true \
 		-v PATH=$bin -S $bin/zsh -b y $bin/make t=$t $i
 	set +x
 done
