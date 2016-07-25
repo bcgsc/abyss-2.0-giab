@@ -58,6 +58,10 @@ bfc_kmerstream: \
 	HG004/mp6k.mp.bfc.kmerstream.tsv \
 	HG004/sequence.index.AJtrio_Illumina_2x250bps_02192016.bfc.kmerstream.tsv
 
+sga: \
+	sga/hsapiens-contigs.stats.tsv \
+	sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
+
 abyss_ref: \
 	$(ref)-k128/$(name)-1.fa
 
@@ -66,7 +70,7 @@ bionano: \
 	discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	discovardenovo/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
-.PHONY: discovardenovo
+.PHONY: discovardenovo sga
 discovardenovo: discovardenovo/$(name)-scaftigs.fa
 
 quast: \
@@ -227,6 +231,10 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 %-scaftigs.fa: %-scaffolds.fa
 	abyss-fatoagp -f $@ $< >$@.agp
 
+# Calculate assembly contiguity metrics with abyss-fac
+%.stats.tsv: %.fa
+	abyss-fac -e3088269832 -t500 $< >$@
+
 # Calculate assembly contiguity and correctness metrics
 %.samtobreak.txt: %.sam
 	(echo '==> $< <=='; bin/abyss-samtobreak-G3088269832 -l500 $<) >$@
@@ -239,6 +247,11 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 
 discovardenovo/$(name)-scaffolds.fa: discovardenovo/$(name)/a.final/a.lines.fasta
 	seqtk seq $< >$@
+
+# SGA
+
+sga/hsapiens-contigs.fa:
+	make -C sga
 
 # BioNano Genomics
 
