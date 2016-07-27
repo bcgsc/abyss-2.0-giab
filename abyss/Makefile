@@ -18,7 +18,8 @@ export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 
 all: \
 	k144/$(ref)_hsapiens-scaftigs.samtobreak.tsv \
-	k144/$(ref)_hsapiens-sealed-scaftigs.samtobreak.tsv
+	k144/$(ref)_hsapiens-sealed-scaftigs.samtobreak.tsv \
+	hsapiens-scaffolds.fa
 
 # BWA
 
@@ -69,3 +70,7 @@ hsapiens.k%.bloom: $(shell cat pe400.in)
 # Convert samtobreak.txt to TSV
 %.samtobreak.tsv: %.samtobreak.txt
 	abyss-samtobreak-to-tsv $< >$@
+
+# Create a symlink
+%-scaffolds.fa: k144/%-sealed-scaffolds.fa
+	ln -sf $< $@
