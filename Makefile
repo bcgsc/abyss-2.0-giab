@@ -24,7 +24,7 @@ export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 .SECONDARY:
 
 all: curl kmerstream nxtrim bfc bfc_kmerstream abyss_ref \
-	bcalm discovardenovo sga soapdenovo \
+	abyss bcalm discovardenovo sga soapdenovo \
 	quast rmarkdown
 
 curl: \
@@ -60,23 +60,27 @@ bfc_kmerstream: \
 	HG004/mp6k.mp.bfc.kmerstream.tsv \
 	HG004/sequence.index.AJtrio_Illumina_2x250bps_02192016.bfc.kmerstream.tsv
 
-.PHONY: bcalm discovardenovo sga soapdenovo
+.PHONY: abyss bcalm discovardenovo sga soapdenovo
+
+abyss: \
+	abyss/hsapiens-scaffolds.stats.tsv \
+	abyss/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
 bcalm: \
 	bcalm/hsapiens-unitigs.stats.tsv \
-	bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
+	bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv
 
 discovardenovo: \
 	discovardenovo/hsapiens-scaffolds.stats.tsv \
-	discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
 sga: \
 	sga/hsapiens-contigs.stats.tsv \
-	sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
+	sga/GRCh38_hsapiens-contigs.samtobreak.tsv
 
 soapdenovo: \
 	soapdenovo/hsapiens-scaffolds.stats.tsv \
-	soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
 abyss_ref: \
 	$(ref)-k128/$(name)-1.fa
@@ -93,6 +97,7 @@ quast: \
 	abyss/k192/$(name)-1.quast/transposed_report.tsv
 
 rmarkdown: \
+	abyss-stats.html \
 	assembly-stats.html
 
 # Install dependencies
@@ -256,25 +261,28 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 %.samtobreak.tsv: %.samtobreak.txt
 	abyss-samtobreak-to-tsv $< >$@
 
+abyss/hsapiens-scaffolds.fa:
+	$(MAKE) -C abyss
+
 # BCALM
 
 bcalm/hsapiens-unitigs.fa:
-	make -C bcalm
+	$(MAKE) -C bcalm
 
 # DISCOVARdenovo
 
 discovardenovo/hsapiens-scaffolds.fa:
-	make -C discovardenovo
+	$(MAKE) -C discovardenovo
 
 # SGA
 
 sga/hsapiens-contigs.fa:
-	make -C sga
+	$(MAKE) -C sga
 
 # SOAPdenovo
 
 soapdenovo/hsapiens-scaffolds.fa:
-	make -C soapdenovo
+	$(MAKE) -C soapdenovo
 
 # BioNano Genomics
 
@@ -313,8 +321,8 @@ $(ref)_%.sam: %.fa
 # Assembly stats
 
 assembly-stats.tsv: \
-		abyss/k144/hsapiens-scaftigs.stats.tsv \
-		abyss/k144/hsapiens-scaffolds.stats.tsv \
+		abyss/hsapiens-scaftigs.stats.tsv \
+		abyss/hsapiens-scaffolds.stats.tsv \
 		bcalm/hsapiens-unitigs.stats.tsv \
 		discovardenovo/hsapiens-scaftigs.stats.tsv \
 		discovardenovo/hsapiens-scaffolds.stats.tsv \
@@ -324,7 +332,7 @@ assembly-stats.tsv: \
 	mlr --tsvlite cat $^ >$@
 
 samtobreak.tsv: \
-		abyss/k144/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
 		discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
