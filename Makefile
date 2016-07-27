@@ -60,7 +60,11 @@ bfc_kmerstream: \
 	HG004/mp6k.mp.bfc.kmerstream.tsv \
 	HG004/sequence.index.AJtrio_Illumina_2x250bps_02192016.bfc.kmerstream.tsv
 
-.PHONY: discovardenovo sga soapdenovo
+.PHONY: bcalm discovardenovo sga soapdenovo
+
+bcalm: \
+	bcalm/hsapiens-unitigs.stats.tsv \
+	bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
 
 discovardenovo: \
 	discovardenovo/hsapiens-scaffolds.stats.tsv \
@@ -251,6 +255,11 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 # Convert samtobreak.txt to TSV
 %.samtobreak.tsv: %.samtobreak.txt
 	abyss-samtobreak-to-tsv $< >$@
+
+# BCALM
+
+bcalm/hsapiens-unitigs.fa:
+	make -C bcalm
 
 # DISCOVARdenovo
 
