@@ -24,7 +24,7 @@ export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 .SECONDARY:
 
 all: curl kmerstream nxtrim bfc bfc_kmerstream abyss_ref \
-	sga soapdenovo \
+	bcalm discovardenovo sga soapdenovo \
 	quast rmarkdown
 
 curl: \
@@ -97,7 +97,7 @@ rmarkdown: \
 
 # Install dependencies
 
-brew_deps=abyss allpaths-lg bcalm bfc bwa discovardenovo fastqc jq kmerstream links-scaffolder masurca minia nxtrim pigz samtools seqtk sga soapdenovo
+brew_deps=abyss allpaths-lg bcalm bfc bwa discovardenovo fastqc jq kmerstream links-scaffolder masurca miller minia nxtrim pigz samtools seqtk sga soapdenovo
 pip_deps=besst
 
 deps:
@@ -309,6 +309,30 @@ $(ref)_%.sam: %.fa
 # Index a BAM file
 %.sort.bam.bai: %.sort.bam
 	samtools index $<
+
+# Assembly stats
+
+assembly-stats.tsv: \
+		abyss/k144/hsapiens-scaftigs.stats.tsv \
+		abyss/k144/hsapiens-scaffolds.stats.tsv \
+		bcalm/hsapiens-unitigs.stats.tsv \
+		discovardenovo/hsapiens-scaftigs.stats.tsv \
+		discovardenovo/hsapiens-scaffolds.stats.tsv \
+		sga/hsapiens-contigs.stats.tsv \
+		soapdenovo/hsapiens-scaftigs.stats.tsv \
+		soapdenovo/hsapiens-scaffolds.stats.tsv
+	mlr --tsvlite cat $^ >$@
+
+samtobreak.tsv: \
+		abyss/k144/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
+		discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
+		soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv
+	mlr --tsvlite cat $^ >$@
+
+%.tsv.md: %.tsv
+	mlr --itsvlite --omd cat $< >$@
 
 # QUAST
 
