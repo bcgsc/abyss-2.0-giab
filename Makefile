@@ -23,7 +23,9 @@ export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 .DELETE_ON_ERROR:
 .SECONDARY:
 
-all: curl kmerstream nxtrim bfc bfc_kmerstream abyss_ref quast rmarkdown
+all: curl kmerstream nxtrim bfc bfc_kmerstream abyss_ref \
+	sga soapdenovo \
+	quast rmarkdown
 
 curl: \
 	AshkenazimTrio/sequence.index.AJtrio_Illumina300X_wgs_07292015.tsv \
@@ -62,6 +64,10 @@ sga: \
 	sga/hsapiens-contigs.stats.tsv \
 	sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
 
+soapdenovo: \
+	soapdenovo/hsapiens-scaffolds.stats.tsv \
+	soapdenovo/GRCh38_hsapiens-scaffolds.samtobreak.tsv \
+
 abyss_ref: \
 	$(ref)-k128/$(name)-1.fa
 
@@ -70,7 +76,7 @@ bionano: \
 	discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	discovardenovo/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
-.PHONY: discovardenovo sga
+.PHONY: discovardenovo sga soapdenovo
 discovardenovo: discovardenovo/$(name)-scaftigs.fa
 
 quast: \
@@ -252,6 +258,11 @@ discovardenovo/$(name)-scaffolds.fa: discovardenovo/$(name)/a.final/a.lines.fast
 
 sga/hsapiens-contigs.fa:
 	make -C sga
+
+# SOAPdenovo
+
+soapdenovo/hsapiens-scaffolds.fa:
+	make -C soapdenovo
 
 # BioNano Genomics
 

@@ -1,7 +1,7 @@
 # Assemble GIAB data using SOAPdenovo
 
 # Parameters
-k = 63
+k = 127
 
 # Number of threads
 t = 32
@@ -12,6 +12,7 @@ G = 3088269832
 # Report run time
 export SHELL=zsh -opipefail
 export REPORTTIME=1
+export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 
 .DELETE_ON_ERROR:
 .SECONDARY:
@@ -19,5 +20,5 @@ export REPORTTIME=1
 all: hsapiens.scafSeq
 
 %.scafSeq: %.config
-	SOAPdenovo-63mer all -s $< -K$k -R -p$t -N$G -o $*
+	time SOAPdenovo-127mer all -s $< -K $k -R -p $t -N $G -o $*
 	ln -sf $@ $*-scaffolds.fa
