@@ -1,0 +1,49 @@
+#!/gsc/btl/linuxbrew/bin/zsh
+#$ -S /gsc/btl/linuxbrew/bin/zsh
+#$ -N discovardenovo
+#$ -q arc.q
+#$ -P arc.prj
+#$ -pe ncpus 32
+#$ -l mem_token=3.9G,mem_free=3.9G,h_vmem=3.9G,excl=true
+#$ -j y
+#$ -o log/$JOB_NAME.$JOB_ID
+#$ -m ae
+#$ -M sjackman@gmail.com
+
+set -eu -opipefail
+export REPORTTIME=1
+
+export PATH=/gsc/btl/linuxbrew/bin
+export MALLOC_PER_THREAD=1
+MAX_MEM_GB=2500
+OUT_DIR=./hsapiens
+READS=@pe600.realpath
+REFHEAD=GCA_000001405.15_GRCh38_genomic.chr-only
+
+if ! ( which DiscovarDeNovo 1>/dev/null 2>&1 )
+then
+    echo 1>&2 "Discovar binary is not in your PATH.  Please ask your sysadmin for help."
+    exit 1
+fi
+
+if [ -d $OUT_DIR ]
+then
+    echo 1>&2 "output directory $OUT_DIR already exists; please delete it or move it aside first."
+    exit 1
+fi
+
+mkdir -p $OUT_DIR/tmp || { echo 1>&2 "failed to make directories... no permissions?" ; exit 1; }
+
+cmd="DiscovarDeNovo MAX_MEM_GB=$MAX_MEM_GB READS=$READS OUT_DIR=$OUT_DIR REFHEAD=$REFHEAD"
+
+echo "running $cmd"
+eval $cmd
+
+if (( $? == 0 ))
+then
+    echo "Discovar has completed correctly.  See the output in $OUT_DIR"
+    exit 0
+else
+    echo "Discovar has failed for some reason.  Please look for error messages above."
+    exit 1
+fi

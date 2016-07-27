@@ -60,13 +60,19 @@ bfc_kmerstream: \
 	HG004/mp6k.mp.bfc.kmerstream.tsv \
 	HG004/sequence.index.AJtrio_Illumina_2x250bps_02192016.bfc.kmerstream.tsv
 
+.PHONY: discovardenovo sga soapdenovo
+
+discovardenovo: \
+	discovardenovo/hsapiens-scaffolds.stats.tsv \
+	discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+
 sga: \
 	sga/hsapiens-contigs.stats.tsv \
 	sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
 
 soapdenovo: \
 	soapdenovo/hsapiens-scaffolds.stats.tsv \
-	soapdenovo/GRCh38_hsapiens-scaffolds.samtobreak.tsv \
+	soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 
 abyss_ref: \
 	$(ref)-k128/$(name)-1.fa
@@ -75,9 +81,6 @@ bionano: \
 	discovardenovo/BESST/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	discovardenovo/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
-
-.PHONY: discovardenovo sga soapdenovo
-discovardenovo: discovardenovo/$(name)-scaftigs.fa
 
 quast: \
 	abyss/k96/$(name)-1.quast/transposed_report.tsv \
@@ -235,7 +238,7 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 
 # Convert scaffolds to scaftigs
 %-scaftigs.fa: %-scaffolds.fa
-	abyss-fatoagp -f $@ $< >$@.agp
+	seqtk seq $< | tr _ '~' | abyss-fatoagp -f $@ >$@.agp
 
 # Calculate assembly contiguity metrics with abyss-fac
 %.stats.tsv: %.fa
@@ -251,8 +254,8 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 
 # DISCOVARdenovo
 
-discovardenovo/$(name)-scaffolds.fa: discovardenovo/$(name)/a.final/a.lines.fasta
-	seqtk seq $< >$@
+discovardenovo/hsapiens-scaffolds.fa:
+	make -C discovardenovo
 
 # SGA
 
