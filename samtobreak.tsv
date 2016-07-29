@@ -7,3 +7,6 @@ soapdenovo/GRCh38_hsapiens-scaftigs.sam	1398	213	7981	26492	26705
 discovardenovo/abyss-scaffold/GRCh38_hsapiens-scaftigs.sam	76634	2001	6321783	1084	3085
 discovardenovo/besst/GRCh38_hsapiens-scaftigs.sam	76624	2041	3939809	616	2657
 discovardenovo/links/GRCh38_hsapiens-scaftigs.sam	76644	2061	2443166	594	2655
+discovardenovo/bionano/GRCh38_hsapiens-scaftigs.sam	76634	1941	1024761	51	1992
+discovardenovo/besst/bionano/GRCh38_hsapiens-scaftigs.sam	76526	2018	9280027	654	2672
+discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.sam	76631	2050	13602216	685	2735
