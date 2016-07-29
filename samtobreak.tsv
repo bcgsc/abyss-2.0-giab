@@ -1,6 +1,6 @@
 File	Contig_NGA50	Contig_breakpoints	Scaffold_NGA50	Scaffold_breakpoints	Total_breakpoints
-abyss/k144/GRCh38_hsapiens-scaftigs.sam	29113	1898	4359107	1077	2975
-bcalm/GRCh38_hsapiens-scaftigs.sam	1191	236	1187	0	236
-GRCh38_hsapiens-scaftigs.sam	76581	1947	128756	34	1981
+abyss/GRCh38_hsapiens-scaftigs.sam	36333	2268	4177510	813	3081
+bcalm/GRCh38_hsapiens-unitigs.sam	1191	236	1187	0	236
+discovardenovo/GRCh38_hsapiens-scaftigs.sam	76581	1947	128756	34	1981
 sga/GRCh38_hsapiens-contigs.sam	7884	859	7835	0	859
 soapdenovo/GRCh38_hsapiens-scaftigs.sam	1398	213	7981	26492	26705
