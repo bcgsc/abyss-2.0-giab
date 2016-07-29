@@ -50,7 +50,11 @@ assemblers <- list(
   "discovardenovo/besst" = "DISCOVARdenovo 52488 + BESST 2.2.4",
   "discovardenovo/links" = "DISCOVARdenovo 52488 + LINKS 1.6.1",
   "sga" = "SGA 0.10.14",
-  "soapdenovo" = "SOAPdenovo 2.04"
+  "soapdenovo" = "SOAPdenovo 2.04",
+  "discovardenovo/bionano" = "DISCOVARdenovo 52488 + BioNano 2.1.5063",
+  "discovardenovo/abyss-scaffold/bionano" = "DISCOVARdenovo 52488 + ABySS-Scaffold 1.9.0 + BioNano 2.1.5063", 
+  "discovardenovo/besst/bionano" = "DISCOVARdenovo 52488 + BESST 2.2.4 + BioNano 2.1.5063",
+  "discovardenovo/links/bionano" = "DISCOVARdenovo 52488 + LINKS 1.6.1 + BioNano 2.1.5063"
 )
 
 data <- left_join(aligned_data, assembly_data,

@@ -334,7 +334,13 @@ assembly-stats.tsv: \
 		discovardenovo/besst/hsapiens-scaftigs.stats.tsv \
 		discovardenovo/besst/hsapiens-scaffolds.stats.tsv \
 		discovardenovo/links/hsapiens-scaftigs.stats.tsv \
-		discovardenovo/links/hsapiens-scaffolds.stats.tsv
+		discovardenovo/links/hsapiens-scaffolds.stats.tsv \
+		discovardenovo/bionano/hsapiens-scaffolds.stats.tsv \
+		discovardenovo/bionano/hsapiens-scaftigs.stats.tsv \
+		discovardenovo/besst/bionano/hsapiens-scaffolds.stats.tsv \
+		discovardenovo/besst/bionano/hsapiens-scaftigs.stats.tsv \
+		discovardenovo/links/bionano/hsapiens-scaffolds.stats.tsv \
+		discovardenovo/links/bionano/hsapiens-scaftigs.stats.tsv
 	mlr --tsvlite cat $^ >$@
 
 samtobreak.tsv: \
@@ -345,7 +351,10 @@ samtobreak.tsv: \
 		soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/abyss-scaffold/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/besst/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
-		discovardenovo/links/GRCh38_hsapiens-scaftigs.samtobreak.tsv
+		discovardenovo/links/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		discovardenovo/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		discovardenovo/besst/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 	mlr --tsvlite cat $^ >$@
 
 %.tsv.md: %.tsv
