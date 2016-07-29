@@ -3,7 +3,7 @@ t=64
 
 all: \
 	hsapiens-scaffolds.fa \
-	BESST/hsapiens-scaffolds.fa \
+	besst/hsapiens-scaffolds.fa \
 	abyss-scaffold/hsapiens-scaffolds.fa
 
 # Report run time and memory usage
@@ -76,6 +76,6 @@ BESST_output/pass1/Scaffolds_pass1.fa: hsapiens-scaffolds.fa mp6k.bam.bai
 	runBESST --orientation rf -c $< -f mp6k.bam -o .
 
 # Delete line breaks and underscores from BESST scaffolds
-BESST/hsapiens-scaffolds.fa: BESST_output/pass1/Scaffolds_pass1.fa
-	ln -sf BESST_output BESST
+besst/hsapiens-scaffolds.fa: BESST_output/pass1/Scaffolds_pass1.fa
+	ln -sf BESST_output besst
 	seqtk seq BESST_output/pass1/Scaffolds_pass1.fa | tr -d _ >$@

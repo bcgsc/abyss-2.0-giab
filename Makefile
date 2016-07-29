@@ -86,7 +86,7 @@ abyss_ref: \
 	$(ref)-k128/$(name)-1.fa
 
 bionano: \
-	discovardenovo/BESST/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	discovardenovo/besst/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	discovardenovo/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
