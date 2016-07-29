@@ -27,75 +27,40 @@ library(tidyr)
 ```
 
 ```{r read-data}
-data_orig <- read_tsv("assembly-stats.tsv")
-scaffolds_data <- read_tsv("samtobreak.tsv")
+assembly_data_orig <- read_tsv("assembly-stats.tsv")
+aligned_data_orig <- read_tsv("samtobreak.tsv")
 ```
 
 ```{r tidy-data}
-data <- data_orig %>%
+assembly_data <- assembly_data_orig %>%
 	separate(name, c("Directory", "File"), "/") %>%
 	separate(File, c("Species", "Stage", "Ext")) %>%
-	select(-Ext) %>%
+	select(-Ext)
+
+aligned_data <- aligned_data_orig %>%
+	separate(File, c("Directory", "File"), "/") %>%
+	separate(File, c("Reference", "Species", "Stage", "Ext")) %>%
+	select(-Reference, -Ext)
+
+data <- left_join(aligned_data, assembly_data,
+    by = c("Directory", "Species", "Stage")) %>%
 	mutate(Directory = factor(Directory, unique(Directory)),
-		Stage = factor(Stage, unique(Stage))) %>%
-	mutate(Name = factor(Directory,
-		levels = c("k96", "k128", "k144", "k192"),
-		labels = c(
-			"ABySS 1.9.0 k=96",
-			"ABySS 1.9.0 k=128",
-			"ABySS 1.9.0 k=144",
-			"ABySS 1.9.0 k=192")))
+	  Stage = factor(Stage, unique(Stage)),
+  	Name = factor(Directory,
+  	 	levels = c("abyss", "bcalm", "discovardenovo", "sga", "soapdenovo"),
+		  labels = c(
+    		"ABySS 1.9.0 k=144 + Sealer",
+     		"BCALM 2.0.0",
+	   		"DISCOVARdenovo 52488",
+  	  	"SGA 0.10.14",
+	    	"SOAPdenovo 2.04")))
 ```
 
-# ABySS contigs
-```{r plot-contigs}
-ggplot(data = data %>% filter(Stage != "8")) +
-	aes(x = Stage, y = NG50 / 1e3, color = Directory, group = Directory) +
-	geom_point() +
-	geom_line() +
-  ylab("NG50 (kbp)")
-```
-
-# ABySS scaffolds
-```{r plot-scaffolds}
-ggplot(data = data) +
-	aes(x = Stage, y = NG50 / 1e6, color = Directory, group = Directory) +
-	geom_point() +
-	geom_line() +
-  ylab("NG50 (Mbp)")
-```
-
-# ABySS assembly stats
-```{r plot-assembly-stats}
-ggplot(data = data) +
-	aes(x = Stage, y = NG50, color = Directory, group = Directory) +
-	geom_point() +
-	geom_line() +
-	scale_y_log10(breaks = 10^(3:7), labels = c("1 kbp", "10 kbp", "100 kbp", "1 Mbp", "10 Mbp"))
-```
-
-# ABySS assembly stats
-```{r plot-NG50, fig.width=10.5, fig.height=10, dpi=300}
-ggplot(data = data) +
-	aes(x = Stage, y = NG50, color = Name, group = Name) +
-	geom_point(size = 3) +
-	geom_line(size = 1.5) +
-	geom_hline(aes(yintercept = NG50, color = Name),
-		data = data %>% filter(Stage == "1"),
-		linetype = "dashed") +
-	scale_x_discrete(labels = c("preunitigs", "unitigs", "contigs", "scaffolds", "scaftigs")) +
-	scale_y_log10(breaks = 10^(3:7), labels = c("1 kbp", "10 kbp", "100 kbp", "1 Mbp", "10 Mbp")) +
-	scale_colour_brewer(name = NULL, palette = "Dark2") +
-	theme_grey(28) +
-	theme(legend.position = c(.35, .85))
-```
-
-# Plot scaffold NGA50 and breakpoints
+# Plot scaffold NGA50 and total breakpoints
 ```{r plot-scaffold-NGA50-breakpoints}
-ggplot(data = scaffolds_data %>% filter(as.integer(k) %% 8 == 0)) +
-  aes(x = Scaffold_breakpoints, y = Scaffold_NGA50 / 1e6, label = k) +
-  xlab("Scaffold breakpoints") + ylab("Scaffold NGA50 (Mbp)") +
-  geom_path() +
+ggplot(data) +
+  aes(x = Total_breakpoints, y = Scaffold_NGA50 / 1e6, label = Name) +
+  xlab("Total breakpoints") + ylab("Scaffold NGA50 (Mbp)") +
   geom_point(size = 3) +
   geom_text_repel() +
   scale_colour_brewer(name = NULL, palette = "Dark2") +
@@ -103,12 +68,12 @@ ggplot(data = scaffolds_data %>% filter(as.integer(k) %% 8 == 0)) +
 	theme(legend.position = c(.35, .85))
 ```
 
-# Table of ABySS assembly stats
+# Table of assembly stats
 ```{r tabulate-assembly-stats}
 kable(data)
 ```
 
-# Table of aligned assembly stats
+# Table of assembly stats
 ```{r tabulate-aligned-stats}
-kable(scaffolds_data)
+kable(aligned_data)
 ```
