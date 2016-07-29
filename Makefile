@@ -290,7 +290,7 @@ bionano_prefix=EXP_REFINEFINAL1_q_bppAdjust_cmap_hsapiens-scaffolds_fa_NGScontig
 
 # HybridScaffold
 %/bionano/hybrid_scaffolds/$(bionano_prefix)_NOT_SCAFFOLDED.fasta %/bionano/hybrid_scaffolds/$(bionano_prefix).fasta: %/hsapiens-scaffolds.fa
-	/usr/bin/perl /gsc/btl/linuxbrew/Cellar/iryssolve/2.1.5063/scripts/HybridScaffold/hybridScaffold.pl \
+	time /usr/bin/perl /gsc/btl/linuxbrew/Cellar/iryssolve/2.1.5063/scripts/HybridScaffold/hybridScaffold.pl \
 		-n $< \
 		-b bionano/aggressive-B2-N2/align0/EXP_REFINEFINAL1_q.cmap \
 		-c bionano/hybridScaffold_config_aggressive.xml \
@@ -306,7 +306,7 @@ bionano_prefix=EXP_REFINEFINAL1_q_bppAdjust_cmap_hsapiens-scaffolds_fa_NGScontig
 
 # Align scaffolds to the reference using BWA-MEM
 $(ref)_%.sam: %.fa
-	bwa mem -xintractg -t$t $(ref_fa) $< >$@
+	time bwa mem -xintractg -t$t $(ref_fa) $< >$@
 
 # Samtools
 
