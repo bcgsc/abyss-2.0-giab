@@ -1,13 +1,10 @@
 # Assemble GIAB data using SOAPdenovo
 
 # Parameters
-k = 127
+k = 63
 
 # Number of threads
-t = 32
-
-# Genome size
-G = 3088269832
+t = 64
 
 # Report run time
 export SHELL=zsh -opipefail
@@ -17,8 +14,10 @@ export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 .DELETE_ON_ERROR:
 .SECONDARY:
 
-all: hsapiens.scafSeq
+all: hsapiens-scaffolds.fa
 
 %.scafSeq: %.config
-	time SOAPdenovo-127mer all -s $< -K $k -R -p $t -N $G -o $*
-	ln -sf $@ $*-scaffolds.fa
+	time SOAPdenovo-63mer all -s $< -K $k -R -p $t -o $*
+
+%-scaffolds.fa: %.scafSeq
+	seqtk seq $< | tr _ '~' >$@
