@@ -4,3 +4,6 @@ bcalm/GRCh38_hsapiens-unitigs.sam	1191	236	1187	0	236
 discovardenovo/GRCh38_hsapiens-scaftigs.sam	76581	1947	128756	34	1981
 sga/GRCh38_hsapiens-contigs.sam	7884	859	7835	0	859
 soapdenovo/GRCh38_hsapiens-scaftigs.sam	1398	213	7981	26492	26705
+discovardenovo/abyss-scaffold/GRCh38_hsapiens-scaftigs.sam	76634	2001	6321783	1084	3085
+discovardenovo/besst/GRCh38_hsapiens-scaftigs.sam	76624	2041	3939809	616	2657
+discovardenovo/links/GRCh38_hsapiens-scaftigs.sam	76644	2061	2443166	594	2655
