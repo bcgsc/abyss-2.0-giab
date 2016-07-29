@@ -33,27 +33,31 @@ aligned_data_orig <- read_tsv("samtobreak.tsv")
 
 ```{r tidy-data}
 assembly_data <- assembly_data_orig %>%
-	separate(name, c("Directory", "File"), "/") %>%
+  mutate(Directory = dirname(name), File = basename(name)) %>%
 	separate(File, c("Species", "Stage", "Ext")) %>%
 	select(-Ext)
 
 aligned_data <- aligned_data_orig %>%
-	separate(File, c("Directory", "File"), "/") %>%
+  mutate(Directory = dirname(File), File = basename(File)) %>%
 	separate(File, c("Reference", "Species", "Stage", "Ext")) %>%
 	select(-Reference, -Ext)
+
+assemblers <- list(
+  "abyss" = "ABySS 1.9.0 k=144 + Sealer",
+  "bcalm" = "BCALM 2.0.0",
+  "discovardenovo" = "DISCOVARdenovo 52488",
+  "discovardenovo/abyss-scaffold" = "DISCOVARdenovo 52488 + ABySS-Scaffold 1.9.0", 
+  "discovardenovo/besst" = "DISCOVARdenovo 52488 + BESST 2.2.4",
+  "discovardenovo/links" = "DISCOVARdenovo 52488 + LINKS 1.6.1",
+  "sga" = "SGA 0.10.14",
+  "soapdenovo" = "SOAPdenovo 2.04"
+)
 
 data <- left_join(aligned_data, assembly_data,
     by = c("Directory", "Species", "Stage")) %>%
 	mutate(Directory = factor(Directory, unique(Directory)),
 	  Stage = factor(Stage, unique(Stage)),
-  	Name = factor(Directory,
-  	 	levels = c("abyss", "bcalm", "discovardenovo", "sga", "soapdenovo"),
-		  labels = c(
-    		"ABySS 1.9.0 k=144 + Sealer",
-     		"BCALM 2.0.0",
-	   		"DISCOVARdenovo 52488",
-  	  	"SGA 0.10.14",
-	    	"SOAPdenovo 2.04")))
+  	Name = factor(Directory, levels = names(assemblers), labels = assemblers))
 ```
 
 # Plot scaffold NGA50 and total breakpoints

@@ -328,7 +328,13 @@ assembly-stats.tsv: \
 		discovardenovo/hsapiens-scaffolds.stats.tsv \
 		sga/hsapiens-contigs.stats.tsv \
 		soapdenovo/hsapiens-scaftigs.stats.tsv \
-		soapdenovo/hsapiens-scaffolds.stats.tsv
+		soapdenovo/hsapiens-scaffolds.stats.tsv \
+		discovardenovo/abyss-scaffold/hsapiens-scaftigs.stats.tsv \
+		discovardenovo/abyss-scaffold/hsapiens-scaffolds.stats.tsv \
+		discovardenovo/besst/hsapiens-scaftigs.stats.tsv \
+		discovardenovo/besst/hsapiens-scaffolds.stats.tsv \
+		discovardenovo/links/hsapiens-scaftigs.stats.tsv \
+		discovardenovo/links/hsapiens-scaffolds.stats.tsv
 	mlr --tsvlite cat $^ >$@
 
 samtobreak.tsv: \
@@ -336,7 +342,10 @@ samtobreak.tsv: \
 		bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
 		discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
-		soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv
+		soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		discovardenovo/abyss-scaffold/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		discovardenovo/besst/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		discovardenovo/links/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 	mlr --tsvlite cat $^ >$@
 
 %.tsv.md: %.tsv
@@ -353,3 +362,5 @@ samtobreak.tsv: \
 # Render HTML from RMarkdown
 %.html: %.rmd %.tsv
 	Rscript -e 'rmarkdown::render("$<", "html_document")'
+
+assembly-stats.html: samtobreak.tsv
