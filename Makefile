@@ -25,7 +25,7 @@ export TIMEFMT=%J  %U user %S system %P cpu %*E total %M MB
 
 all: curl kmerstream nxtrim bfc bfc_kmerstream abyss_ref \
 	abyss bcalm discovardenovo sga soapdenovo \
-	quast rmarkdown
+	rmarkdown
 
 curl: \
 	AshkenazimTrio/sequence.index.AJtrio_Illumina300X_wgs_07292015.tsv \
