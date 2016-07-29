@@ -63,8 +63,11 @@ abyss-scaffold/mp6k-6.sam.gz: hsapiens-scaffolds.fa \
 	time gunzip -c $(wordlist 2, 99, $^) | bwa mem -t$t -p hsapiens-scaffolds.fa - | samtools view -h -F2304 \
 	| abyss-fixmate -v -h $(@D)/mp6k-6.hist | sort -snk3 -k4 | gzip >$@
 
-%-scaffolds.fa: %-6.dot abyss-scaffold/mp6k-6.sam.gz
-	time abyss-pe -n -C $(@D) name=hsapiens scaffolds v=-v S=5000-10000 N=15 mp6k_de=--mean mp6k_n=1
+%-scaffolds.fa: %-6.fa %-6.dot abyss-scaffold/mp6k-6.sam.gz
+	time abyss-pe -C $(@D) -f ../intermediate.mk \
+		name=hsapiens mp=mp6k \
+		j=$t v=-v k=200 l=40 s=500 S=500-5000 N=15 mp6k_de=--mean mp6k_n=1 \
+		scaffolds
 
 # BESST
 
