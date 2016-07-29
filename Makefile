@@ -5,7 +5,7 @@
 name=hsapiens
 
 # Number of threads
-t=32
+t=64
 
 # Reference genome
 ref=GRCh38
