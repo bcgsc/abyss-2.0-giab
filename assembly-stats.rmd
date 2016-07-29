@@ -13,6 +13,7 @@ install.packages("ggrepel")
 install.packages("knitr")
 install.packages("magrittr")
 install.packages("readr")
+install.packages("rmarkdown")
 install.packages("tidyr")
 ```
 
