@@ -45,19 +45,19 @@ aligned_data <- aligned_data_orig %>%
 	mutate(Stage = "scaffolds")
 
 assemblers <- list(
-  "abyss" = "ABySS 1.9.0 + Sealer",
-  "bcalm" = "BCALM 2.0.0",
-  "discovardenovo" = "DISCOVARdenovo 52488",
-  "discovardenovo/abyss-scaffold" = "DISCOVARdenovo 52488 + ABySS-Scaffold 1.9.0", 
-  "discovardenovo/besst" = "DISCOVARdenovo 52488 + BESST 2.2.4",
-  "discovardenovo/links" = "DISCOVARdenovo 52488 + LINKS 1.6.1",
-  "sga" = "SGA 0.10.14",
-  "soapdenovo" = "SOAPdenovo 2.04",
-  "bionano/aggressive-B2-N2" = "ABySS 1.9.0 + BioNano 2.1.5063",
-  "discovardenovo/bionano" = "DISCOVARdenovo 52488 + BioNano 2.1.5063",
-  "discovardenovo/abyss-scaffold/bionano" = "DISCOVARdenovo 52488 + ABySS-Scaffold 1.9.0 + BioNano 2.1.5063", 
-  "discovardenovo/besst/bionano" = "DISCOVARdenovo 52488 + BESST 2.2.4 + BioNano 2.1.5063",
-  "discovardenovo/links/bionano" = "DISCOVARdenovo 52488 + LINKS 1.6.1 + BioNano 2.1.5063"
+  "abyss" = "ABySS 1.9.0",
+  "bcalm" = "BCALM",
+  "discovardenovo" = "DISCOVARdenovo",
+  "discovardenovo/abyss-scaffold" = "DISCOVARdenovo + ABySS-Scaffold", 
+  "discovardenovo/besst" = "DISCOVARdenovo + BESST",
+  "discovardenovo/links" = "DISCOVARdenovo + LINKS",
+  "sga" = "SGA",
+  "soapdenovo" = "SOAPdenovo",
+  "bionano/aggressive-B2-N2" = "ABySS 1.9.0 + BioNano",
+  "discovardenovo/bionano" = "DISCOVARdenovo + BioNano",
+  "discovardenovo/abyss-scaffold/bionano" = "DISCOVARdenovo + ABySS-Scaffold + BioNano", 
+  "discovardenovo/besst/bionano" = "DISCOVARdenovo + BESST + BioNano",
+  "discovardenovo/links/bionano" = "DISCOVARdenovo + LINKS + BioNano"
 )
 
 data <- left_join(aligned_data, assembly_data,
