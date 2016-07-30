@@ -41,8 +41,7 @@ assembly_data <- assembly_data_orig %>%
 aligned_data <- aligned_data_orig %>%
 	mutate(Directory = dirname(File), File = basename(File)) %>%
 		separate(File, c("Reference", "Species", "Stage", "Ext")) %>%
-		select(-Reference, -Ext) %>%
-		mutate(Stage = "scaffolds")
+		select(-Reference, -Ext)
 
 assemblers <- list(
 	"abyss" = "ABySS 1.9.0",
@@ -60,14 +59,20 @@ assemblers <- list(
 	"discovardenovo/links/bionano" = "DISCOVARdenovo + LINKS + BioNano"
 )
 
-data <- left_join(aligned_data, assembly_data,
+data <- left_join(aligned_data %>% mutate(Stage = "scaffolds"), assembly_data,
+		by = c("Directory", "Species", "Stage")) %>%
+		mutate(Directory = factor(Directory, unique(Directory)),
+			Stage = factor(Stage, unique(Stage)),
+		Name = factor(Directory, levels = names(assemblers), labels = assemblers))
+
+contig_data <- left_join(aligned_data, assembly_data,
 		by = c("Directory", "Species", "Stage")) %>%
 		mutate(Directory = factor(Directory, unique(Directory)),
 			Stage = factor(Stage, unique(Stage)),
 		Name = factor(Directory, levels = names(assemblers), labels = assemblers))
 ```
 
-# Plot scaffold NGA50 and total breakpoints
+# Plot scaffold NG50, NGA50 and total breakpoints
 ```{r plot-scaffold-NGA50-breakpoints}
 ggplot(data) +
 	aes(label = Name, x = Total_breakpoints) +
@@ -76,9 +81,21 @@ ggplot(data) +
 	geom_text_repel(aes(y = NG50 / 1e6 - 0.1),
 		nudge_x = -1500, nudge_y = 2, segment.color = "#cccccc") +
 	scale_colour_brewer(name = NULL, palette = "Dark2") +
-		theme_grey(28) +
-		theme(legend.position = c(.35, .85)) +
-	xlim(0, 4000)
+	xlim(0, 4000) +
+	theme_grey(28) +
+	theme(legend.position = c(.35, .85))
+```
+
+# Plot contig NG50, NGA50 and total breakpoints
+```{r plot-contig-NGA50-breakpoints}
+ggplot(contig_data %>% filter(!grepl("\\+", Name))) +
+	aes(label = Name, x = Contig_breakpoints) +
+	xlab("Contig breakpoints") + ylab("Contig NG50 and NGA50 (kbp)") +
+	geom_errorbar(aes(ymin = Contig_NGA50 / 1e3, ymax = NG50 / 1e3), width = 50) +
+	geom_text_repel(aes(y = NG50 / 1e3 - 0.1),
+		nudge_x = 200, nudge_y = 2, segment.color = "#cccccc") +
+	xlim(0, 4000) +
+	theme_grey(28)
 ```
 
 # Table of metrics
