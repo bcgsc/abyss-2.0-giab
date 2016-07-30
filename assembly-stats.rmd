@@ -73,7 +73,8 @@ ggplot(data) +
   aes(label = Name, x = Total_breakpoints) +
   xlab("Total breakpoints") + ylab("Scaffold NG50 and NGA50 (Mbp)") +
   geom_errorbar(aes(ymin = Scaffold_NGA50 / 1e6, ymax = NG50 / 1e6), width = 50) +
-  geom_text_repel(aes(y = NG50 / 1e6)) +
+  geom_text_repel(aes(y = NG50 / 1e6 - 0.1),
+      nudge_x = -1500, nudge_y = 2, segment.color = "#cccccc") +
   scale_colour_brewer(name = NULL, palette = "Dark2") +
 	theme_grey(28) +
 	theme(legend.position = c(.35, .85)) +
