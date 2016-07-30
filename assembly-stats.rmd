@@ -41,7 +41,8 @@ assembly_data <- assembly_data_orig %>%
 aligned_data <- aligned_data_orig %>%
   mutate(Directory = dirname(File), File = basename(File)) %>%
 	separate(File, c("Reference", "Species", "Stage", "Ext")) %>%
-	select(-Reference, -Ext)
+	select(-Reference, -Ext) %>%
+	mutate(Stage = "scaffolds")
 
 assemblers <- list(
   "abyss" = "ABySS 1.9.0 + Sealer",
@@ -69,10 +70,10 @@ data <- left_join(aligned_data, assembly_data,
 # Plot scaffold NGA50 and total breakpoints
 ```{r plot-scaffold-NGA50-breakpoints}
 ggplot(data) +
-  aes(x = Total_breakpoints, y = Scaffold_NGA50 / 1e6, label = Name) +
-  xlab("Total breakpoints") + ylab("Scaffold NGA50 (Mbp)") +
-  geom_point(size = 3) +
-  geom_text_repel() +
+  aes(label = Name, x = Total_breakpoints) +
+  xlab("Total breakpoints") + ylab("Scaffold NG50 and NGA50 (Mbp)") +
+  geom_errorbar(aes(ymin = Scaffold_NGA50 / 1e6, ymax = NG50 / 1e6), width = 50) +
+  geom_text_repel(aes(y = NG50 / 1e6)) +
   scale_colour_brewer(name = NULL, palette = "Dark2") +
 	theme_grey(28) +
 	theme(legend.position = c(.35, .85)) +
