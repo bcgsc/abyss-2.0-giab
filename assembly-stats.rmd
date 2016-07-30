@@ -34,51 +34,51 @@ aligned_data_orig <- read_tsv("samtobreak.tsv")
 
 ```{r tidy-data}
 assembly_data <- assembly_data_orig %>%
-  mutate(Directory = dirname(name), File = basename(name)) %>%
-	separate(File, c("Species", "Stage", "Ext")) %>%
-	select(-Ext)
+	mutate(Directory = dirname(name), File = basename(name)) %>%
+		separate(File, c("Species", "Stage", "Ext")) %>%
+		select(-Ext)
 
 aligned_data <- aligned_data_orig %>%
-  mutate(Directory = dirname(File), File = basename(File)) %>%
-	separate(File, c("Reference", "Species", "Stage", "Ext")) %>%
-	select(-Reference, -Ext) %>%
-	mutate(Stage = "scaffolds")
+	mutate(Directory = dirname(File), File = basename(File)) %>%
+		separate(File, c("Reference", "Species", "Stage", "Ext")) %>%
+		select(-Reference, -Ext) %>%
+		mutate(Stage = "scaffolds")
 
 assemblers <- list(
-  "abyss" = "ABySS 1.9.0",
-  "bcalm" = "BCALM",
-  "discovardenovo" = "DISCOVARdenovo",
-  "discovardenovo/abyss-scaffold" = "DISCOVARdenovo + ABySS-Scaffold", 
-  "discovardenovo/besst" = "DISCOVARdenovo + BESST",
-  "discovardenovo/links" = "DISCOVARdenovo + LINKS",
-  "sga" = "SGA",
-  "soapdenovo" = "SOAPdenovo",
-  "bionano/aggressive-B2-N2" = "ABySS 1.9.0 + BioNano",
-  "discovardenovo/bionano" = "DISCOVARdenovo + BioNano",
-  "discovardenovo/abyss-scaffold/bionano" = "DISCOVARdenovo + ABySS-Scaffold + BioNano", 
-  "discovardenovo/besst/bionano" = "DISCOVARdenovo + BESST + BioNano",
-  "discovardenovo/links/bionano" = "DISCOVARdenovo + LINKS + BioNano"
+	"abyss" = "ABySS 1.9.0",
+	"bcalm" = "BCALM",
+	"discovardenovo" = "DISCOVARdenovo",
+	"discovardenovo/abyss-scaffold" = "DISCOVARdenovo + ABySS-Scaffold",
+	"discovardenovo/besst" = "DISCOVARdenovo + BESST",
+	"discovardenovo/links" = "DISCOVARdenovo + LINKS",
+	"sga" = "SGA",
+	"soapdenovo" = "SOAPdenovo",
+	"bionano/aggressive-B2-N2" = "ABySS 1.9.0 + BioNano",
+	"discovardenovo/bionano" = "DISCOVARdenovo + BioNano",
+	"discovardenovo/abyss-scaffold/bionano" = "DISCOVARdenovo + ABySS-Scaffold + BioNano",
+	"discovardenovo/besst/bionano" = "DISCOVARdenovo + BESST + BioNano",
+	"discovardenovo/links/bionano" = "DISCOVARdenovo + LINKS + BioNano"
 )
 
 data <- left_join(aligned_data, assembly_data,
-    by = c("Directory", "Species", "Stage")) %>%
-	mutate(Directory = factor(Directory, unique(Directory)),
-	  Stage = factor(Stage, unique(Stage)),
-  	Name = factor(Directory, levels = names(assemblers), labels = assemblers))
+		by = c("Directory", "Species", "Stage")) %>%
+		mutate(Directory = factor(Directory, unique(Directory)),
+			Stage = factor(Stage, unique(Stage)),
+		Name = factor(Directory, levels = names(assemblers), labels = assemblers))
 ```
 
 # Plot scaffold NGA50 and total breakpoints
 ```{r plot-scaffold-NGA50-breakpoints}
 ggplot(data) +
-  aes(label = Name, x = Total_breakpoints) +
-  xlab("Total breakpoints") + ylab("Scaffold NG50 and NGA50 (Mbp)") +
-  geom_errorbar(aes(ymin = Scaffold_NGA50 / 1e6, ymax = NG50 / 1e6), width = 50) +
-  geom_text_repel(aes(y = NG50 / 1e6 - 0.1),
-      nudge_x = -1500, nudge_y = 2, segment.color = "#cccccc") +
-  scale_colour_brewer(name = NULL, palette = "Dark2") +
-	theme_grey(28) +
-	theme(legend.position = c(.35, .85)) +
-  xlim(0, 4000)
+	aes(label = Name, x = Total_breakpoints) +
+	xlab("Total breakpoints") + ylab("Scaffold NG50 and NGA50 (Mbp)") +
+	geom_errorbar(aes(ymin = Scaffold_NGA50 / 1e6, ymax = NG50 / 1e6), width = 50) +
+	geom_text_repel(aes(y = NG50 / 1e6 - 0.1),
+		nudge_x = -1500, nudge_y = 2, segment.color = "#cccccc") +
+	scale_colour_brewer(name = NULL, palette = "Dark2") +
+		theme_grey(28) +
+		theme(legend.position = c(.35, .85)) +
+	xlim(0, 4000)
 ```
 
 # Table of metrics
