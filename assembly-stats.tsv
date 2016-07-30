@@ -15,6 +15,8 @@ n	n:500	L50	LG50	NG50	min	N80	N50	N20	E-size	max	sum	name
 1020891	108670	239	272	3082817	500	1164237	3410969	7401512	4304694	16.76e6	2.874e9	discovardenovo/links/hsapiens-scaffolds.fa
 1044596	132375	312	371	1609838	500	64897	2055965	6234939	3244768	23.77e6	2.873e9	discovardenovo/bionano/hsapiens-scaffolds.fa
 1145170	159059	9570	10831	82089	500	37318	89319	171108	110347	726230	2.872e9	discovardenovo/bionano/hsapiens-scaftigs.fa
+1010791	98570	19	21	52.21e6	500	22.61e6	54.34e6	85.86e6	55.88e6	126.2e6	2.872e9	discovardenovo/abyss-scaffold/bionano/hsapiens-scaffolds.fa
+1076281	159073	9570	10832	82088	500	37308	89316	171108	110345	726230	2.872e9	discovardenovo/abyss-scaffold/bionano/hsapiens-scaftigs.fa
 1006375	97441	22	25	37.8e6	500	14.39e6	44.52e6	67.03e6	48.85e6	169.8e6	2.87e9	discovardenovo/besst/bionano/hsapiens-scaffolds.fa
 1076606	158038	9557	10839	81994	500	37370	89366	171108	110374	726143	2.869e9	discovardenovo/besst/bionano/hsapiens-scaftigs.fa
 1019679	107456	32	36	25.72e6	500	12.16e6	28.99e6	51.71e6	33.24e6	102.9e6	2.874e9	discovardenovo/links/bionano/hsapiens-scaffolds.fa
