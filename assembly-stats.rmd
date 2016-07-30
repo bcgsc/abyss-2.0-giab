@@ -44,7 +44,7 @@ aligned_data <- aligned_data_orig %>%
 	select(-Reference, -Ext)
 
 assemblers <- list(
-  "abyss" = "ABySS 1.9.0 k=144 + Sealer",
+  "abyss" = "ABySS 1.9.0 + Sealer",
   "bcalm" = "BCALM 2.0.0",
   "discovardenovo" = "DISCOVARdenovo 52488",
   "discovardenovo/abyss-scaffold" = "DISCOVARdenovo 52488 + ABySS-Scaffold 1.9.0", 
@@ -52,7 +52,7 @@ assemblers <- list(
   "discovardenovo/links" = "DISCOVARdenovo 52488 + LINKS 1.6.1",
   "sga" = "SGA 0.10.14",
   "soapdenovo" = "SOAPdenovo 2.04",
-  "bionano" = "ABySS 1.9.0 k=144 + BioNano 2.1.5063",
+  "bionano/aggressive-B2-N2" = "ABySS 1.9.0 + BioNano 2.1.5063",
   "discovardenovo/bionano" = "DISCOVARdenovo 52488 + BioNano 2.1.5063",
   "discovardenovo/abyss-scaffold/bionano" = "DISCOVARdenovo 52488 + ABySS-Scaffold 1.9.0 + BioNano 2.1.5063", 
   "discovardenovo/besst/bionano" = "DISCOVARdenovo 52488 + BESST 2.2.4 + BioNano 2.1.5063",
@@ -79,12 +79,17 @@ ggplot(data) +
   xlim(0, 4000)
 ```
 
-# Table of assembly stats
-```{r tabulate-assembly-stats}
+# Table of metrics
+```{r tabulate-metrics}
 kable(data)
 ```
 
-# Table of assembly stats
-```{r tabulate-aligned-stats}
+# Table of assembly metrics
+```{r tabulate-assembly-metrics}
+kable(assembly_data)
+```
+
+# Table of aligned metrics
+```{r tabulate-aligned-metrics}
 kable(aligned_data)
 ```
