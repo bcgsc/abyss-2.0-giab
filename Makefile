@@ -337,6 +337,10 @@ assembly-stats.tsv: \
 		discovardenovo/links/hsapiens-scaffolds.stats.tsv \
 		bionano/aggressive-B2-N2/hsapiens-scaftigs.stats.tsv \
 		bionano/aggressive-B2-N2/hsapiens-scaffolds.stats.tsv \
+		abyss/k144/bionano/hsapiens-scaftigs.stats.tsv \
+		abyss/k144/bionano/hsapiens-scaffolds.stats.tsv \
+		abyss/k144/sealer/bionano/hsapiens-scaftigs.stats.tsv \
+		abyss/k144/sealer/bionano/hsapiens-scaffolds.stats.tsv \
 		discovardenovo/bionano/hsapiens-scaffolds.stats.tsv \
 		discovardenovo/bionano/hsapiens-scaftigs.stats.tsv \
 		discovardenovo/abyss-scaffold/bionano/hsapiens-scaffolds.stats.tsv \
@@ -354,6 +358,8 @@ samtobreak.tsv: \
 		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
 		soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		bionano/aggressive-B2-N2/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss/k144/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss/k144/sealer/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/abyss-scaffold/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/besst/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/links/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
