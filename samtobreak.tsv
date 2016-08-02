@@ -1,5 +1,7 @@
 File	Contig_NGA50	Contig_breakpoints	Scaffold_NGA50	Scaffold_breakpoints	Total_breakpoints
 abyss/GRCh38_hsapiens-scaftigs.sam	36333	2268	4177510	813	3081
+abyss2/k144/GRCh38_hsapiens-scaftigs.sam	20118	1813	2968323	904	2717
+abyss2/k144/sealer/GRCh38_hsapiens-scaftigs.sam	23731	2089	2939513	766	2855
 bcalm/GRCh38_hsapiens-unitigs.sam	1191	236	1187	0	236
 discovardenovo/GRCh38_hsapiens-scaftigs.sam	76581	1947	128756	34	1981
 sga/GRCh38_hsapiens-contigs.sam	7884	859	7835	0	859
@@ -7,6 +9,8 @@ soapdenovo/GRCh38_hsapiens-scaftigs.sam	1398	213	7981	26492	26705
 bionano/aggressive-B2-N2/GRCh38_hsapiens-scaftigs.sam	29099	1935	15321441	1116	3051
 abyss/k144/bionano/GRCh38_hsapiens-scaftigs.sam	29104	1899	14768895	1139	3038
 abyss/k144/sealer/bionano/GRCh38_hsapiens-scaftigs.sam	36333	2245	14704627	882	3127
+abyss2/k144/bionano/GRCh38_hsapiens-scaftigs.sam	20111	1783	12802697	967	2750
+abyss2/k144/sealer/bionano/GRCh38_hsapiens-scaftigs.sam	23731	2122	12645941	823	2945
 discovardenovo/abyss-scaffold/GRCh38_hsapiens-scaftigs.sam	76634	2001	6321783	1084	3085
 discovardenovo/besst/GRCh38_hsapiens-scaftigs.sam	76624	2041	3939809	616	2657
 discovardenovo/links/GRCh38_hsapiens-scaftigs.sam	76644	2061	2443166	594	2655
