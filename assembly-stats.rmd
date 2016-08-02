@@ -45,6 +45,8 @@ aligned_data <- aligned_data_orig %>%
 
 assemblers <- list(
 	"abyss" = "ABySS 1.9.0",
+	"abyss2/k144" = "ABySS 2.0.0",
+	"abyss2/k144/sealer" = "ABySS 2.0.0 + Sealer",
 	"bcalm" = "BCALM",
 	"discovardenovo" = "DISCOVARdenovo",
 	"discovardenovo/abyss-scaffold" = "DISCOVARdenovo + ABySS-Scaffold",
@@ -55,6 +57,8 @@ assemblers <- list(
 	"bionano/aggressive-B2-N2" = "ABySS 1.9.0 + BioNano -xy",
 	"abyss/k144/bionano" = "ABySS 1.9.0 + BioNano",
 	"abyss/k144/sealer/bionano" = "ABySS 1.9.0 + Sealer + BioNano",
+	"abyss2/k144/bionano" = "ABySS 2.0.0 + BioNano",
+	"abyss2/k144/sealer/bionano" = "ABySS 2.0.0 + Sealer + BioNano",
 	"discovardenovo/bionano" = "DISCOVARdenovo + BioNano",
 	"discovardenovo/abyss-scaffold/bionano" = "DISCOVARdenovo + ABySS-Scaffold + BioNano",
 	"discovardenovo/besst/bionano" = "DISCOVARdenovo + BESST + BioNano",
