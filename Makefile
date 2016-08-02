@@ -333,11 +333,13 @@ $(ref)_%.sam: %.fa
 # Assembly stats
 
 assembly-stats.tsv: \
-		abyss/hsapiens-scaftigs.stats.tsv \
-		abyss/hsapiens-scaffolds.stats.tsv \
+		abyss/k144/hsapiens-scaftigs.stats.tsv \
+		abyss/k144/hsapiens-scaffolds.stats.tsv \
+		abyss/k144/sealer/hsapiens-scaftigs.stats.tsv \
+		abyss/k144/sealer/hsapiens-scaffolds.stats.tsv \
 		abyss2/k144/hsapiens-scaftigs.stats.tsv \
-		abyss2/k144/hsapiens-scaftigs.stats.tsv \
-		abyss2/k144/sealer/hsapiens-scaffolds.stats.tsv \
+		abyss2/k144/hsapiens-scaffolds.stats.tsv \
+		abyss2/k144/sealer/hsapiens-scaftigs.stats.tsv \
 		abyss2/k144/sealer/hsapiens-scaffolds.stats.tsv \
 		bcalm/hsapiens-unitigs.stats.tsv \
 		discovardenovo/hsapiens-scaftigs.stats.tsv \
@@ -372,7 +374,8 @@ assembly-stats.tsv: \
 	mlr --tsvlite cat $^ >$@
 
 samtobreak.tsv: \
-		abyss/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss/k144/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss/k144/sealer/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		abyss2/k144/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		abyss2/k144/sealer/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
