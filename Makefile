@@ -245,6 +245,18 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 	mkdir -p $(ref)-k$*
 	ABYSS -v -k$* -e0 -t0 -c0 $< -o $@ -s $(ref)-k$*/$(name)-bubbles.fa 2>&1 |tee $@.log
 
+# Fill in gaps using ABySS-Sealer
+%/sealer/hsapiens-scaffolds.fa: %/hsapiens-scaffolds.fa
+	mkdir -p $(@D)
+	time /home/benv/arch/genesis/abyss-1.9.0/k256/bin/abyss-sealer \
+		-v -j$t --print-flanks \
+		-L500 -F1500 -B300 \
+		-o $(@D)/hsapiens -t $(@D)/hsapiens.sealer.tsv -S $< \
+		-k64 -k80 -k96 -k112 -k128 -k144 -k160 -k176 -k192 -k208 -k224 -k240 \
+		-ihsapiens.k64.bloom -ihsapiens.k80.bloom -ihsapiens.k96.bloom -ihsapiens.k112.bloom -ihsapiens.k128.bloom -ihsapiens.k144.bloom -ihsapiens.k160.bloom -ihsapiens.k176.bloom -ihsapiens.k192.bloom -ihsapiens.k208.bloom -ihsapiens.k224.bloom -ihsapiens.k240.bloom \
+		/dev/null
+	mv $(@D)/hsapiens_scaffold.fa $@
+
 # Convert scaffolds to scaftigs
 %-scaftigs.fa: %-scaffolds.fa
 	seqtk seq $< | tr _ '~' | abyss-fatoagp -f $@ >$@.agp
@@ -323,6 +335,10 @@ $(ref)_%.sam: %.fa
 assembly-stats.tsv: \
 		abyss/hsapiens-scaftigs.stats.tsv \
 		abyss/hsapiens-scaffolds.stats.tsv \
+		abyss2/k144/hsapiens-scaftigs.stats.tsv \
+		abyss2/k144/hsapiens-scaftigs.stats.tsv \
+		abyss2/k144/sealer/hsapiens-scaffolds.stats.tsv \
+		abyss2/k144/sealer/hsapiens-scaffolds.stats.tsv \
 		bcalm/hsapiens-unitigs.stats.tsv \
 		discovardenovo/hsapiens-scaftigs.stats.tsv \
 		discovardenovo/hsapiens-scaffolds.stats.tsv \
@@ -341,6 +357,10 @@ assembly-stats.tsv: \
 		abyss/k144/bionano/hsapiens-scaffolds.stats.tsv \
 		abyss/k144/sealer/bionano/hsapiens-scaftigs.stats.tsv \
 		abyss/k144/sealer/bionano/hsapiens-scaffolds.stats.tsv \
+		abyss2/k144/bionano/hsapiens-scaftigs.stats.tsv \
+		abyss2/k144/bionano/hsapiens-scaffolds.stats.tsv \
+		abyss2/k144/sealer/bionano/hsapiens-scaftigs.stats.tsv \
+		abyss2/k144/sealer/bionano/hsapiens-scaffolds.stats.tsv \
 		discovardenovo/bionano/hsapiens-scaffolds.stats.tsv \
 		discovardenovo/bionano/hsapiens-scaftigs.stats.tsv \
 		discovardenovo/abyss-scaffold/bionano/hsapiens-scaffolds.stats.tsv \
@@ -353,6 +373,8 @@ assembly-stats.tsv: \
 
 samtobreak.tsv: \
 		abyss/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss2/k144/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss2/k144/sealer/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
 		discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
@@ -360,6 +382,8 @@ samtobreak.tsv: \
 		bionano/aggressive-B2-N2/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		abyss/k144/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		abyss/k144/sealer/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss2/k144/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		abyss2/k144/sealer/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/abyss-scaffold/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/besst/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/links/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
