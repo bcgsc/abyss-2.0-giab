@@ -94,7 +94,7 @@ ggplot(data) +
 
 # Plot contig NG50, NGA50 and total breakpoints
 ```{r plot-contig-NGA50-breakpoints}
-ggplot(contig_data %>% filter(!grepl("\\+", Name))) +
+ggplot(contig_data %>% filter(!grepl("BioNano", Name))) +
 	aes(label = Name, x = Contig_breakpoints) +
 	xlab("Contig breakpoints") + ylab("Contig NG50 and NGA50 (kbp)") +
 	geom_errorbar(aes(ymin = Contig_NGA50 / 1e3, ymax = NG50 / 1e3), width = 50) +
