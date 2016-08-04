@@ -79,8 +79,14 @@ sga: \
 	sga/GRCh38_hsapiens-contigs.samtobreak.tsv
 
 soapdenovo: \
-	soapdenovo/hsapiens-scaffolds.stats.tsv \
-	soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv
+	soapdenovo/k63/hsapiens-scaffolds.stats.tsv \
+	soapdenovo/k63/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	soapdenovo/k95/hsapiens-scaffolds.stats.tsv \
+	soapdenovo/k95/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	soapdenovo/k111/hsapiens-scaffolds.stats.tsv \
+	soapdenovo/k111/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	soapdenovo/k127/hsapiens-scaffolds.stats.tsv \
+	soapdenovo/k127/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
 abyss_ref: \
 	$(ref)-k128/$(name)-1.fa
@@ -293,7 +299,7 @@ sga/hsapiens-contigs.fa:
 
 # SOAPdenovo
 
-soapdenovo/hsapiens-scaffolds.fa:
+soapdenovo/k95/hsapiens-scaffolds.fa:
 	$(MAKE) -C soapdenovo
 
 # BioNano Genomics
@@ -345,8 +351,14 @@ assembly-stats.tsv: \
 		discovardenovo/hsapiens-scaftigs.stats.tsv \
 		discovardenovo/hsapiens-scaffolds.stats.tsv \
 		sga/hsapiens-contigs.stats.tsv \
-		soapdenovo/hsapiens-scaftigs.stats.tsv \
-		soapdenovo/hsapiens-scaffolds.stats.tsv \
+		soapdenovo/k63/hsapiens-scaftigs.stats.tsv \
+		soapdenovo/k63/hsapiens-scaffolds.stats.tsv \
+		soapdenovo/k95/hsapiens-scaftigs.stats.tsv \
+		soapdenovo/k95/hsapiens-scaffolds.stats.tsv \
+		soapdenovo/k111/hsapiens-scaftigs.stats.tsv \
+		soapdenovo/k111/hsapiens-scaffolds.stats.tsv \
+		soapdenovo/k127/hsapiens-scaftigs.stats.tsv \
+		soapdenovo/k127/hsapiens-scaffolds.stats.tsv \
 		discovardenovo/abyss-scaffold/hsapiens-scaftigs.stats.tsv \
 		discovardenovo/abyss-scaffold/hsapiens-scaffolds.stats.tsv \
 		discovardenovo/besst/hsapiens-scaftigs.stats.tsv \
@@ -381,7 +393,10 @@ samtobreak.tsv: \
 		bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
 		discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
-		soapdenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		soapdenovo/k63/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		soapdenovo/k95/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		soapdenovo/k111/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		soapdenovo/k127/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		bionano/aggressive-B2-N2/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		abyss/k144/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		abyss/k144/sealer/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
