@@ -81,6 +81,8 @@ sga: \
 soapdenovo: \
 	soapdenovo/k63/hsapiens-scaffolds.stats.tsv \
 	soapdenovo/k63/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+	soapdenovo/k79/hsapiens-scaffolds.stats.tsv \
+	soapdenovo/k79/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	soapdenovo/k95/hsapiens-scaffolds.stats.tsv \
 	soapdenovo/k95/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	soapdenovo/k111/hsapiens-scaffolds.stats.tsv \
@@ -353,6 +355,8 @@ assembly-stats.tsv: \
 		sga/hsapiens-contigs.stats.tsv \
 		soapdenovo/k63/hsapiens-scaftigs.stats.tsv \
 		soapdenovo/k63/hsapiens-scaffolds.stats.tsv \
+		soapdenovo/k79/hsapiens-scaftigs.stats.tsv \
+		soapdenovo/k79/hsapiens-scaffolds.stats.tsv \
 		soapdenovo/k95/hsapiens-scaftigs.stats.tsv \
 		soapdenovo/k95/hsapiens-scaffolds.stats.tsv \
 		soapdenovo/k111/hsapiens-scaftigs.stats.tsv \
@@ -394,6 +398,7 @@ samtobreak.tsv: \
 		discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
 		soapdenovo/k63/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
+		soapdenovo/k79/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		soapdenovo/k95/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		soapdenovo/k111/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		soapdenovo/k127/GRCh38_hsapiens-scaftigs.samtobreak.tsv \

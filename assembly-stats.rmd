@@ -55,6 +55,7 @@ assemblers <- list(
 	"discovardenovo/links" = "DISCOVARdenovo + LINKS",
 	"sga" = "SGA",
 	"soapdenovo/k63" = "SOAPdenovo k=63",
+	"soapdenovo/k79" = "SOAPdenovo k=79",
 	"soapdenovo/k95" = "SOAPdenovo k=95",
 	"soapdenovo/k111" = "SOAPdenovo k=111",
 	"soapdenovo/k127" = "SOAPdenovo k=127",
