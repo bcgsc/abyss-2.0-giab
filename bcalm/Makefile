@@ -17,7 +17,7 @@ all: hsapiens-unitigs.fa
 # BCALM
 
 hsapiens-unitigs.h5: pe400.in
-	bcalm -in $< -out hsapiens-unitigs -k $k -abundance 5 -nb-cores $t
+	time bcalm -in $< -out hsapiens-unitigs -k $k -abundance 5 -nb-cores $t
 
 %.fa: %.h5
-	bglue -in $< -out $@ -k $k
+	time bglue -in $< -out $@ -k $k -nb-cores 12
