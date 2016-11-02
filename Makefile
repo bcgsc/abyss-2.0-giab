@@ -420,6 +420,24 @@ samtobreak.tsv: \
 		discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 	mlr --tsvlite cat $^ >$@
 
+# Contig stats
+
+assembly-stats.contigs.tsv: \
+		abyss/k144/hsapiens-contigs.stats.tsv \
+		abyss2/k144/hsapiens-contigs.stats.tsv \
+		discovardenovo/hsapiens-contigs.stats.tsv \
+		sga/hsapiens-contigs.stats.tsv \
+		soapdenovo/k95/hsapiens-contigs.stats.tsv
+	mlr --tsvlite cat $^ >$@
+
+samtobreak.contigs.tsv: \
+		abyss/k144/GRCh38_hsapiens-contigs.samtobreak.tsv \
+		abyss2/k144/GRCh38_hsapiens-contigs.samtobreak.tsv \
+		discovardenovo/GRCh38_hsapiens-contigs.samtobreak.tsv \
+		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
+		soapdenovo/k95/GRCh38_hsapiens-contigs.samtobreak.tsv
+	mlr --tsvlite cat $^ >$@
+
 %.tsv.md: %.tsv
 	mlr --itsvlite --omd cat $< >$@
 
