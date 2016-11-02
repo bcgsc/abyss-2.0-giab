@@ -15,6 +15,9 @@ ref_gff=/projects/btl/reference_genomes/H_sapiens/GRCh38/Homo_sapiens.GRCh38.84.
 # Parallelize gzip
 gzip = pigz -p$t
 
+# Path to ABySS executables
+abyss_bin=/home/benv/arch/genesis/abyss-1.9.0/k256/bin
+
 # Report run time and memory usage
 export SHELL=zsh -opipefail
 export REPORTTIME=1
@@ -267,11 +270,11 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 
 # Convert scaffolds to scaftigs
 %-scaftigs.fa: %-scaffolds.fa
-	seqtk seq $< | tr _ '~' | abyss-fatoagp -f $@ >$@.agp
+	seqtk seq $< | tr _ '~' | $(abyss_bin)/abyss-fatoagp -f $@ >$@.agp
 
 # Calculate assembly contiguity metrics with abyss-fac
 %.stats.tsv: %.fa
-	abyss-fac -e3088269832 -t500 $< >$@
+	$(abyss_bin)/abyss-fac -e3088269832 -t500 $< >$@
 
 # Calculate assembly contiguity and correctness metrics
 %.samtobreak.txt: %.sam
@@ -279,7 +282,7 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 
 # Convert samtobreak.txt to TSV
 %.samtobreak.tsv: %.samtobreak.txt
-	abyss-samtobreak-to-tsv $< >$@
+	bin/abyss-samtobreak-to-tsv $< >$@
 
 abyss/hsapiens-scaffolds.fa:
 	$(MAKE) -C abyss
