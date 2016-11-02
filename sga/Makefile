@@ -4,6 +4,9 @@ t=64
 # Minimum overlap
 m=125
 
+# Path to ABySS executables
+abyss_bin=/home/benv/arch/genesis/abyss-1.9.0/k256/bin
+
 # Report run time and memory usage
 export SHELL=zsh -opipefail
 export REPORTTIME=0
@@ -70,5 +73,13 @@ hsapiens.fa.gz: pe400.fa.gz
 %.scaf: %-contigs.fa %-graph.asqg.gz pe400.astat pe400.de mp6k+unknown.de
 	time sga scaffold -m 500 -g $*-graph.asqg.gz -a pe400.astat --pe pe400.de --mate-pair mp6k+unknown.de -o $@ $<
 
-%-scaffolds.fa: %.scaf %-graph.asqg.gz
-	time sga scaffold2fasta -m 500 --write-unplaced --use-overlap -o $@ -a $*-graph.asqg.gz $<
+# sga scaffold2fasta blows an assertion.
+# See https://github.com/jts/sga/issues/125
+#%-scaffolds.fa: %.scaf %-graph.asqg.gz
+#	time sga scaffold2fasta -m 500 --write-unplaced --use-overlap -o $@ -a $*-graph.asqg.gz $<
+
+%.path: %.scaf
+	../bin/sga-scaf-to-path $< >$@
+
+%-scaffolds.fa: %-contigs.fa %.path
+	$(abyss_bin)/MergeContigs -v -k100 -o $@ $< $< $*.path
