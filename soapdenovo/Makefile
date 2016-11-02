@@ -20,5 +20,8 @@ k$k/%.scafSeq: %.config
 	mkdir -p $(@D)
 	cd $(@D) && time SOAPdenovo-127mer all -s ../$< -K $k -R -p $t -o $*
 
+%-contigs.fa: %.contig
+	seqtk seq $< >$@
+
 %-scaffolds.fa: %.scafSeq
 	seqtk seq $< | tr _ '~' >$@
