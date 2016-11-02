@@ -5,7 +5,7 @@ abyss2/k144/GRCh38_hsapiens-scaftigs.sam	20118	1813	2968323	904	2717
 abyss2/k144/sealer/GRCh38_hsapiens-scaftigs.sam	23731	2089	2939513	766	2855
 bcalm/GRCh38_hsapiens-unitigs.sam	1191	236	1187	0	236
 discovardenovo/GRCh38_hsapiens-scaftigs.sam	76581	1947	128756	34	1981
-sga/GRCh38_hsapiens-contigs.sam	7884	859	7835	0	859
+sga/GRCh38_hsapiens-scaftigs.sam	7884	846	70847	290	1136
 soapdenovo/k63/GRCh38_hsapiens-scaftigs.sam	1398	213	7981	26492	26705
 soapdenovo/k79/GRCh38_hsapiens-scaftigs.sam	2090	330	6162	9648	9978
 soapdenovo/k95/GRCh38_hsapiens-scaftigs.sam	3749	609	102709	10610	11219
