@@ -355,7 +355,8 @@ assembly-stats.tsv: \
 		bcalm/hsapiens-unitigs.stats.tsv \
 		discovardenovo/hsapiens-scaftigs.stats.tsv \
 		discovardenovo/hsapiens-scaffolds.stats.tsv \
-		sga/hsapiens-contigs.stats.tsv \
+		sga/hsapiens-scaftigs.stats.tsv \
+		sga/hsapiens-scaffolds.stats.tsv \
 		soapdenovo/k63/hsapiens-scaftigs.stats.tsv \
 		soapdenovo/k63/hsapiens-scaffolds.stats.tsv \
 		soapdenovo/k79/hsapiens-scaftigs.stats.tsv \
@@ -399,7 +400,7 @@ samtobreak.tsv: \
 		abyss2/k144/sealer/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		bcalm/GRCh38_hsapiens-unitigs.samtobreak.tsv \
 		discovardenovo/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
-		sga/GRCh38_hsapiens-contigs.samtobreak.tsv \
+		sga/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		soapdenovo/k63/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		soapdenovo/k79/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		soapdenovo/k95/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
