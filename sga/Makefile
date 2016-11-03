@@ -37,11 +37,23 @@ hsapiens.fa.gz: pe400.fa.gz
 %.filter.pass.bwt: %.fa %.bwt
 	time sga filter -t $t $<
 
-%.asqg.gz: %.bwt
-	time sga overlap -t $t $*.fa -m $m
+%.merged.fa: %.fa
+	time sga fm-merge -t $t -m $m -o $@ $<
 
-%-contigs.fa: %.preprocess.filter.pass.asqg.gz
-	time sga assemble -o $* $<
+%.merged.fa.bwt: %.merged.fa
+	time sga index -d 1000000 -t $t $<
+
+%.rmdup.bwt: %.fa %.fa.bwt
+	time sga rmdup -t $t $<
+
+%.asqg.gz: %.bwt
+	time sga overlap -t $t -m $m $*.fa
+
+%-contigs.fa: %.asqg.gz
+	time sga assemble -m $m -o $* $<
+
+hsapiens-contigs.fa: %-contigs.fa: %.preprocess.filter.pass-contigs.fa
+	ln -s $< $@
 
 # sga-align fails with reads that have been corrected using BFC.
 # See https://github.com/jts/sga/issues/121
