@@ -28,22 +28,31 @@ mp6k+unknown.fq.gz: %.fq.gz: %.in
 hsapiens.fa.gz: pe400.fa.gz
 	ln -s $< $@
 
+raw/hsapiens.fq.gz correct/hsapiens.fq.gz: %/hsapiens.fq.gz: %/pe400.fq.gz
+	ln -s $(<F) $@
+
 %.preprocess.fa: %.fa.gz
 	time sga preprocess --pe-mode=2 $< >$@
+
+%.preprocess.fa: %.fq.gz
+	time sga preprocess --pe-mode=2 --discard-quality $< >$@
 
 %.bwt: %.fa
 	time sga index -t $t -a ropebwt $<
 
-%.filter.pass.bwt: %.fa %.bwt
+%.ec.fa: %.fa %.bwt
+	time sga correct -t $t --learn -o $@ $<
+
+%.filter.pass.fa %.filter.pass.bwt: %.fa %.bwt
 	time sga filter -t $t $<
 
 %.merged.fa: %.fa
 	time sga fm-merge -t $t -m $m -o $@ $<
 
-%.merged.fa.bwt: %.merged.fa
-	time sga index -d 1000000 -t $t $<
+%.merged.bwt: %.merged.fa
+	time sga index -d 10000000 -t $t $<
 
-%.rmdup.bwt: %.fa %.fa.bwt
+%.rmdup.fa %.rmdup.bwt: %.fa %.bwt
 	time sga rmdup -t $t $<
 
 %.asqg.gz: %.bwt
@@ -54,6 +63,18 @@ hsapiens.fa.gz: pe400.fa.gz
 
 hsapiens-contigs.fa: %-contigs.fa: %.preprocess.filter.pass-contigs.fa
 	ln -s $< $@
+
+raw/hsapiens.preprocess.filter.pass.merged.rmdup-contigs.fa: %.preprocess.filter.pass.merged.rmdup-contigs.fa: %.fq.gz
+	$(MAKE) -C $(@D) $(@F)
+
+raw/hsapiens-contigs.fa: %-contigs.fa: %.preprocess.filter.pass.merged.rmdup-contigs.fa
+	ln -s $(<F) $@
+
+correct/hsapiens.preprocess.ec.filter.pass.merged.rmdup-contigs.fa: %.preprocess.ec.filter.pass.merged.rmdup-contigs.fa: %.fq.gz
+	$(MAKE) -C $(@D) $(@F)
+
+correct/hsapiens-contigs.fa: %-contigs.fa: %.preprocess.ec.filter.pass.merged.rmdup-contigs.fa
+	ln -s $(<F) $@
 
 # sga-align fails with reads that have been corrected using BFC.
 # See https://github.com/jts/sga/issues/121
