@@ -18,6 +18,12 @@ gzip = pigz -p$t
 # Path to ABySS executables
 abyss_bin=/home/benv/arch/genesis/abyss-1.9.0/k256/bin
 
+# Size of the reference genome with Ns
+GwithN=3088269832
+
+# Size of the reference genome without Ns
+GwithoutN=2937639113
+
 # Report run time and memory usage
 export SHELL=zsh -opipefail
 export REPORTTIME=1
@@ -349,6 +355,23 @@ $(ref)_%.sam: %.fa
 %.sort.bam.bai: %.sort.bam
 	samtools index $<
 
+# Calculate the genome coverage of a sorted BAM file
+%.sort.bam.coverage.tsv: %.sort.bam
+	samtools view -u -F260 $< | samtools depth - \
+		| mlr --tsvlite --implicit-csv-header stats1 -a sum,count -f 3 \
+		| mlr --tsvlite label Aligned,Covered \
+		| mlr --tsvlite put '$$GenomeSize = $(GwithoutN); $$GenomeCoverage = $$Covered / $$GenomeSize' >$@
+
+# Calculate the number of mismatches in a SAM file
+%.sam.nm.tsv: %.sam
+	samtools view -F260 $< | sed '/NM:i:/!d;s/^.*NM:i://;s/[[:space:]].*//' \
+		| mlr --tsvlite --implicit-csv-header stats1 -a sum -f 1 \
+		| mlr --tsvlite label NM >$@
+
+# Summarize correctness and completeness
+%.metrics.tsv: %.sort.bam.coverage.tsv %.sam.nm.tsv
+	paste $^ | mlr --tsvlite put '$$Identity = 1 - $$NM / $$Aligned; $$QV = -10 * log10(1 - $$Identity); $$File = "$*.sam"' >$@
+
 # Assembly stats
 
 assembly-stats.tsv: \
@@ -426,6 +449,19 @@ samtobreak.tsv: \
 		discovardenovo/abyss-scaffold/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/besst/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 		discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
+	mlr --tsvlite cat $^ >$@
+
+metrics.tsv: \
+		abyss/k144/GRCh38_hsapiens-scaftigs.metrics.tsv \
+		abyss/k144/sealer/GRCh38_hsapiens-scaftigs.metrics.tsv \
+		abyss2/k144/GRCh38_hsapiens-scaftigs.metrics.tsv \
+		abyss2/k144/sealer/GRCh38_hsapiens-scaftigs.metrics.tsv \
+		bcalm/GRCh38_hsapiens-unitigs.metrics.tsv \
+		discovardenovo/GRCh38_hsapiens-scaftigs.metrics.tsv \
+		megahit/GRCh38_hsapiens-scaftigs.metrics.tsv \
+		minia/GRCh38_hsapiens-scaftigs.metrics.tsv \
+		sga/GRCh38_hsapiens-scaftigs.metrics.tsv \
+		soapdenovo/k95/GRCh38_hsapiens-scaftigs.metrics.tsv
 	mlr --tsvlite cat $^ >$@
 
 # Contig stats

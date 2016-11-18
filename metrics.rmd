@@ -1,0 +1,59 @@
+---
+title: Assembly quality value and genome coverage metrics
+author: Shaun Jackman
+output:
+  html_document:
+    keep_md: yes
+---
+
+# Load packages
+```{r load-packages}
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(ggrepel)
+library(knitr)
+```
+
+# Read the data
+```{r read-data}
+metrics_orig <- read_tsv("metrics.tsv")
+```
+
+# Tidy the data
+```{r tidy}
+rename_assemblers <- . %>%
+  sub("abyss", "ABySS", .) %>%
+  sub("ABySS2", "ABySS 2.0", .) %>%
+  sub("ABySS$", "ABySS 1.9", .) %>%
+  sub("bcalm", "BCALM", .) %>%
+  sub("discovar", "DISCOVAR", .) %>%
+  sub("megahit", "MEGAHIT", .) %>%
+  sub("minia", "Minia", .) %>%
+  sub("sealer", "Sealer", .) %>%
+  sub("sga", "SGA", .) %>%
+  sub("soap", "SOAP", .)
+
+metrics <- metrics_orig %>%
+  filter(!grepl("sealer", File)) %>%
+  mutate(Directory = dirname(File), Filename = basename(File)) %>%
+  mutate(Assembler = sub("/k[0-9]*", "", Directory) %>% rename_assemblers)
+```
+
+# Plot assembly percent identity and percent genome coverage
+```{r plot-coverage-identity}
+ggplot(metrics) +
+  aes(x = 100 * Identity, y = 100 * GenomeCoverage, label = Assembler) +
+  geom_point() +
+  geom_text_repel(size = 5) +
+  xlab("Percent identity") +
+  ylab("Percent genome coverage") +
+  theme_bw(20)
+```
+
+# Table of assembly percent identity and percent genome coverage
+```{r table-coverage-identity}
+metrics %>%
+  transmute(Assembler, GenomeCoverage = round(100 * GenomeCoverage, 1), Identity = round(100 * Identity, 2), QV = round(QV, 1)) %>%
+  kable()
+```
