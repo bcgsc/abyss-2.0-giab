@@ -10,7 +10,7 @@ t=64
 # Reference genome
 ref=GRCh38
 ref_fa=/projects/btl/reference_genomes/H_sapiens/GRCh38/GCA_000001405.15_GRCh38_genomic.chr-only.fa
-ref_gff=/projects/btl/reference_genomes/H_sapiens/GRCh38/Homo_sapiens.GRCh38.84.chr.gff
+ref_gff=/projects/btl/reference_genomes/H_sapiens/GRCh38/Homo_sapiens.GRCh38.86.chr.gff3
 
 # Parallelize gzip
 gzip = pigz -p$t
@@ -107,12 +107,6 @@ bionano: \
 	discovardenovo/links/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv \
 	discovardenovo/bionano/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
-quast: \
-	abyss/k96/$(name)-1.quast/transposed_report.tsv \
-	abyss/k128/$(name)-1.quast/transposed_report.tsv \
-	abyss/k160/$(name)-1.quast/transposed_report.tsv \
-	abyss/k192/$(name)-1.quast/transposed_report.tsv
-
 rmarkdown: \
 	abyss-stats.html \
 	assembly-stats.html
@@ -134,6 +128,14 @@ versions.json:
 
 versions.tsv: %.tsv: %.json
 	jq -r '["Name", "Version"],(.[]|[.name,.versions.stable])|@tsv' $< >$@
+
+# Download data from NCBI.
+
+Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz:
+	curl -O ftp://ftp.ensembl.org/pub/release-86/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+
+Homo_sapiens.GRCh38.86.chr.gff3.gz:
+	curl -O ftp://ftp.ensembl.org/pub/release-86/gff3/homo_sapiens/Homo_sapiens.GRCh38.86.chr.gff3.gz
 
 # Download the data
 
@@ -372,6 +374,13 @@ $(ref)_%.sam: %.fa
 %.metrics.tsv: %.sort.bam.coverage.tsv %.sam.nm.tsv
 	paste $^ | mlr --tsvlite put '$$Identity = 1 - $$NM / $$Aligned; $$QV = -10 * log10(1 - $$Identity); $$File = "$*.sam"' >$@
 
+# QUAST
+
+# Analayze the assemblies using QUAST
+%.quast.tsv: %.fa
+	quast.py -t$t -s -e -o $*.quast -R $(ref_fa) -G $(ref_gff) -l `echo $< | tr / _` $<
+	cp -a $*.quast/transposed_report.tsv $@
+
 # Assembly stats
 
 assembly-stats.tsv: \
@@ -464,6 +473,17 @@ metrics.tsv: \
 		soapdenovo/k95/GRCh38_hsapiens-scaftigs.metrics.tsv
 	mlr --tsvlite cat $^ >$@
 
+quast.tsv: \
+		abyss/k144/hsapiens-scaffolds.quast.tsv \
+		abyss2/k144/hsapiens-scaffolds.quast.tsv \
+		bcalm/hsapiens-unitigs.quast.tsv \
+		discovardenovo/hsapiens-scaffolds.quast.tsv \
+		megahit/hsapiens-scaffolds.quast.tsv \
+		minia/hsapiens-scaffolds.quast.tsv \
+		sga/hsapiens-scaffolds.quast.tsv \
+		soapdenovo/k95/hsapiens-scaffolds.quast.tsv
+	mlr --tsvlite cat $^ >$@
+
 # Contig stats
 
 assembly-stats.contigs.tsv: \
@@ -484,12 +504,6 @@ samtobreak.contigs.tsv: \
 
 %.tsv.md: %.tsv
 	mlr --itsvlite --omd cat $< >$@
-
-# QUAST
-
-# Analayze the assemblies using QUAST
-%.quast/transposed_report.tsv: %.fa
-	quast.py -t$t -eL -o $*.quast -R $(ref_fa) -G $(ref_gff) $<
 
 # R Markdown
 
