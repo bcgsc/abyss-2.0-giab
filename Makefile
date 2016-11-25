@@ -300,8 +300,13 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 %.samtobreak.tsv: %.samtobreak.txt
 	bin/abyss-samtobreak-to-tsv $< >$@
 
+# Assemble the reads using ABySS
 abyss/hsapiens-scaffolds.fa:
 	$(MAKE) -C abyss
+
+# Map the reads to the assembly using abyss-map and store the CIGAR string
+k144_hsapiens-scaffolds.%.sam.cigar.gz: abyss2/k144/hsapiens-scaffolds.fa %.in
+	$(abyss_bin)/abyss-map -j$t -l40 -v `<$*.in` $< | cut -sf6 | $(gzip) >$@
 
 # BCALM
 
