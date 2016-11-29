@@ -15,7 +15,7 @@ export REPORTTIME=1
 
 export PATH=/gsc/btl/linuxbrew/bin
 export MALLOC_PER_THREAD=1
-MAX_MEM_GB=2500
+MAX_MEM_GB=750
 OUT_DIR=./hsapiens
 READS=@pe400.realpath
 REFHEAD=GCA_000001405.15_GRCh38_genomic.chr-only
