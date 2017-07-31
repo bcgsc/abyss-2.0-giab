@@ -1,0 +1,64 @@
+#!/bin/bash
+set -eu -o pipefail
+
+#------------------------------------------------------------
+# environment
+#------------------------------------------------------------
+
+if [ $k -le 256 ]; then
+	maxk=256
+elif [ $k -le 512 ]; then
+	maxk=512
+else
+	echo "Error: no ABySS binaries available for k > 512!" >&2
+	exit 1
+fi
+
+# for samtools, bioawk
+export PATH=/home/benv/bin:$PATH
+# for abyss-bloom-dbg
+export PATH=${abyss_install_dir:-/projects/btl/benv/arch/xhost/abyss-dev/5f6a0b2}/k$maxk/bin:$PATH
+
+#------------------------------------------------------------
+# helper functions
+#------------------------------------------------------------
+
+# make Ctrl-C kill all descendant processes
+source /projects/btl/bloom-dbg/assembler-comparison/common/ctrl-c.bash
+# functions log memory usage memory usage
+source /projects/btl/bloom-dbg/assembler-comparison/common/mem-logger.bash
+
+#------------------------------------------------------------
+# working dir
+#------------------------------------------------------------
+
+if [ -z "${dir:-}" ]; then
+	if [ -z ${c+x} ]; then
+		dir=k$k
+	else
+		dir=c$c/k$k
+	fi
+fi
+mkdir -p $dir
+cd $dir
+
+#------------------------------------------------------------
+# run the assembly
+#------------------------------------------------------------
+
+echo 'which abyss-pe: '$(which abyss-pe)
+
+# log memory and running time for each assembly stage separately
+stages=${stages:-"preunitigs unitigs contigs scaffolds"}
+for stage in $stages; do
+	if [ $stage = "preunitigs" ]; then
+		make_target="$name-1.fa"
+	else
+		make_target="$stage"
+	fi
+	start_mem_log mem.log.$stage.$JOB_ID
+	/usr/bin/time -o time.log.$stage.$JOB_ID -p abyss-pe \
+		k=$k l=40 s=1000 v=-v q=15 \
+		$make_target "$@"
+	stop_mem_log
+done
