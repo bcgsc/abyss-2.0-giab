@@ -69,11 +69,15 @@ bfc_kmerstream: \
 	HG004/mp6k.mp.bfc.kmerstream.tsv \
 	HG004/sequence.index.AJtrio_Illumina_2x250bps_02192016.bfc.kmerstream.tsv
 
-.PHONY: abyss bcalm discovardenovo sga soapdenovo
+.PHONY: abyss abyss2 bcalm discovardenovo sga soapdenovo
 
 abyss: \
 	abyss/hsapiens-scaffolds.stats.tsv \
 	abyss/GRCh38_hsapiens-scaftigs.samtobreak.tsv
+
+abyss2: \
+	abyss2/hsapiens-scaffolds.stats.tsv \
+	abyss2/GRCh38_hsapiens-scaftigs.samtobreak.tsv
 
 bcalm: \
 	bcalm/hsapiens-unitigs.stats.tsv \
@@ -300,9 +304,13 @@ $(ref)-k%/$(name)-1.fa: $(ref_fa)
 %.samtobreak.tsv: %.samtobreak.txt
 	bin/abyss-samtobreak-to-tsv $< >$@
 
-# Assemble the reads using ABySS
+# Assemble the reads using ABySS 1.9
 abyss/hsapiens-scaffolds.fa:
 	$(MAKE) -C abyss
+
+# Assemble the reads using ABySS 2.0
+abyss2/hsapiens-scaffolds.fa:
+	$(MAKE) -C abyss2
 
 # Map the reads to the assembly using abyss-map and store the CIGAR string
 k144_hsapiens-scaffolds.%.sam.cigar.gz: abyss2/k144/hsapiens-scaffolds.fa %.in
