@@ -41,7 +41,7 @@ k%/hsapiens-scaffolds.fa: pe400.in mp6k+unknown.in
 	name=hsapiens np=$t k=$* q=15 v=-v \
 		l=40 s=1000 n=10 \
 		B=26G H=4 c=3 \
-		S=1000-10000 N=7 mp6k_de=--mean mp6k_n=1 \
+		S=1000-10000 N=9 mp6k_de=--mean mp6k_n=1 \
 		lib=pe400 pe400=`<pe400.in` \
 		mp=mp6k mp6k=`<mp6k+unknown.in` \
 		JOB_ID=k$* stages="unitigs contigs mp-sam scaffolds scaftigs" \
